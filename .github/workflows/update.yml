@@ -17,8 +17,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.6'
-      - name: switching from HTTPS to SSH
-        run: git remote set-url origin ${{ secrets.ssh }}
       - name: download RKI dump
-        run: cd .github/workflows/ && env python3 ./download_RKI_COVID19.py
+        run: cd .github/workflows/ && env python3 ./download_RKI_COVID19.py && cd ../../
+      - name: Commit files
+        run: |
+          git config --local user.name  ${{ github.actor }}
+          git add ./*.csv
+          git commit -m "daily update"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
         
