@@ -33,10 +33,3 @@ else:
     with open(FULLNAME, 'wb') as df:
         df.write(r.content)
         df.close()        
-    
-    #command = "(cd {} && git add {} && git commit -m 'added dump {}' && git fetch origin master && git push origin HEAD:master )".format(DATAPATH, FILENAME, DATE_STR) 
-    #if VERBOSE:
-    #    print("Executing:\n{}".format(command))
-    #
-    #os.system(command)
-    #sys.exit(0)
