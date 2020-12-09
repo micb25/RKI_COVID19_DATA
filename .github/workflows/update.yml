@@ -20,10 +20,12 @@ jobs:
           pip install requests
       - name: download RKI dump
         run: cd .github/workflows/ && env python3 ./download_RKI_COVID19.py && cd ../../
+      - name: compress RKI dump
+        run: gzip *.csv
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./*.csv
+          git add ./*.csv.gz
           git commit -m "daily update"
       - name: Push changes
         uses: ad-m/github-push-action@master
