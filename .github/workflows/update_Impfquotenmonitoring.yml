@@ -1,8 +1,11 @@
 name: daily Impfquotenmonitoring update
 
 on:
+  push:
+    branches:
+      - master
   schedule:
-    - cron: "0 18 * * *"
+    - cron: "0 12,18 * * *"
 
 jobs:
   update_page:
@@ -14,16 +17,18 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.6'
-      - name: Install dependencies
+      - name: Install gnuplot
+        run: sudo apt-get install gnuplot
+      - name: Install python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests
+          pip install requests pandas
       - name: download RKI Impfquotenmonitoring
         run: cd .github/workflows/ && env python3 ./download_RKI_Impfquotenmonitoring.py && cd ../../
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Impfquotenmonitoring/*.xlsx
+          git add ./Impfquotenmonitoring/*.xlsx ./Impfquotenmonitoring/*.csv
           git commit -m "daily Impfquotenmonitoring update"
       - name: Push changes
         uses: ad-m/github-push-action@master
