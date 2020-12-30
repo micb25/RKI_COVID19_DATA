@@ -76,6 +76,7 @@ set key at graph 0.02, 0.98 left top invert spacing 1.5 box ls 3 opaque
 # states
 NUM_STATES = 17
 array states[NUM_STATES]
+array population[NUM_STATES]
 
 states[1] = "Deutschland"
 states[2] = "Schleswig-Holstein"
@@ -94,6 +95,25 @@ states[14] = "Mecklenburg-Vorpommern"
 states[15] = "Sachsen"
 states[16] = "Sachsen-Anhalt"
 states[17] = "Thüringen"
+
+# https://de.wikipedia.org/wiki/Liste_der_deutschen_Bundesl%C3%A4nder_nach_Bev%C3%B6lkerung
+population[1] = 83166711 
+population[2] = 2903773
+population[3] = 1847253
+population[4] = 7993608
+population[5] = 681202
+population[6] = 17947221
+population[7] = 6288080
+population[8] = 4093903
+population[9] = 11100394
+population[10] = 13124737
+population[11] = 986887
+population[12] = 3669491
+population[13] = 2521893
+population[14] = 1608138
+population[15] = 4071971
+population[16] = 2194782
+population[17] = 2133378
 
 # stats for x
 stats "../RKI_COVID19_Impfquotenmonitoring.csv" using 1 nooutput
