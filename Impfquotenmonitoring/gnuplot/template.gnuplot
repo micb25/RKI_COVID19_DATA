@@ -97,8 +97,8 @@ states[17] = "Thüringen"
 
 # stats for x
 stats "../RKI_COVID19_Impfquotenmonitoring.csv" using 1 nooutput
-xmin = int(STATS_min) + 86400
-xmax = int(STATS_max) + 86400
+xmin = int(STATS_min)
+xmax = int(STATS_max)
 
 # latest update
 update_str = "{/*1.00 Datenquelle: Robert Koch-Institut; letzte Aktualisierung: " . system("date +%d.%m.%Y") . "}"
