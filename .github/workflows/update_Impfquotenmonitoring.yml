@@ -24,7 +24,7 @@ jobs:
       - name: Install python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests pandas
+          pip install requests pandas xlrd
       - name: download RKI Impfquotenmonitoring
         run: cd .github/workflows/ && env python3 ./download_RKI_Impfquotenmonitoring.py && cd ../../
       - name: Commit files
