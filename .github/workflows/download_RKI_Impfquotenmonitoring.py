@@ -67,7 +67,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
             
             if not os.path.isfile(csv_file):
             
-                df = pd.read_excel(filename, sheet_name=1, nrows=17)
+                df = pd.read_excel(filename, sheet_name=1, nrows=17, engine='openpyxl')
                 
                 columns = list(df.columns)
                 for column in columns:
