@@ -1,6 +1,9 @@
 name: daily Impfquotenmonitoring update
 
 on:
+  push:
+    branches:
+      - master
   schedule:
     - cron: "0 11 * * *"
 
