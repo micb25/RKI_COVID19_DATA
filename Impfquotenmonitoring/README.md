@@ -4,6 +4,12 @@
 
 Daten-Scraper und automatisierte Visualisierung des Impfquotenmonitorings vom Robert Koch-Institut. Die Diagramme in diesem Repository sind lizensiert unter [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/de/).
 
+## Überblick (kumuliert)
+
+Überblick nach Bundesländern               |
+:-----------------------------------------:|
+![](gnuplot/plot_vac_rel_overview.png)     |
+
 ## geimpfter Bevölkerungsanteil (kumuliert)
 
 Deutschland                                | Baden-Württemberg
