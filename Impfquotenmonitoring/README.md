@@ -6,9 +6,9 @@ Daten-Scraper und automatisierte Visualisierung des Impfquotenmonitorings vom Ro
 
 ## Überblick (kumuliert)
 
-Überblick nach Bundesländern               |
-:-----------------------------------------:|
-![](gnuplot/plot_vac_rel_overview.png)     |
+geimpfter Bevölkerungsanteil nach Bundesland |
+:-------------------------------------------:|
+![](gnuplot/plot_vac_rel_overview.png)       |
 
 ## geimpfter Bevölkerungsanteil (kumuliert)
 
