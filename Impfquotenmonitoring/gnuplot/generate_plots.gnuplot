@@ -3,6 +3,11 @@ CSV_SOURCE = "../RKI_COVID19_Impfquotenmonitoring.csv"
 
 load "template.gnuplot"
 
+set xrange [xmin:xmax]
+set xdata time
+set timefmt "%s"
+set format x "%d.%m.%y"
+
 PLOT_TITLE = "Impfungen kumuliert"
 PLOT_STYLE = 1
 INDEX_COL = 5

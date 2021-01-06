@@ -123,7 +123,3 @@ xmax = int(STATS_max)
 # latest update
 update_str = "{/*1.00 Datenquelle: Robert Koch-Institut; letzte Aktualisierung: " . system("date +%d.%m.%Y") . "}"
 
-set xrange [xmin:xmax]
-set xdata time
-set timefmt "%s"
-set format x "%d.%m.%y"
