@@ -4,6 +4,7 @@
 import os, re
 from datetime import datetime
 import pandas as pd
+import numpy as np
 
 DATAPATH     = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Impfquotenmonitoring' + os.sep + 'raw_data' + os.sep
 PARSED_CSV   = '..' + os.sep + 'RKI_COVID19_Impfquotenmonitoring.csv'
@@ -28,6 +29,8 @@ states = {
     "Sachsen-Anhalt": 15,
     "Thüringen": 16
 }
+
+isodate_pattern = re.compile(r"([\d]{4})-([\d]{2})-([\d]{2})")
         
 # generate CSVs
 for r, d, f in os.walk(DATAPATH, topdown=True):
@@ -35,20 +38,128 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
         filename = os.path.join(r, file)
         if filename.endswith('.xlsx'):
             csv_file = filename.replace('.xlsx', '.csv')
+                        
+            # if not os.path.isfile(csv_file):
+            if True:
             
-            if not os.path.isfile(csv_file):
-            
-                df = pd.read_excel(filename, sheet_name=1, nrows=17, engine='openpyxl')
+                pm_date = re.findall(isodate_pattern, csv_file)
+                if (len(pm_date) < 1) or (len(pm_date[0]) < 3):
+                    continue
+                date = datetime(year=int(pm_date[0][0]), month=int(pm_date[0][1]), day=int(pm_date[0][2]))
                 
-                columns = list(df.columns)
-                for column in columns:
-                    fixed_name = column.replace(' ', '').replace('*', '').replace('-', '')
-                    df.rename(columns={column:fixed_name}, inplace=True)
-                
-                df = df.fillna(0)
-                
-                df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.0f', index=False)
-
+                # check for different formats
+                if date < datetime(year=2021, month=1, day=18):
+                    
+                    # 1st format
+                    df = pd.read_excel(filename, sheet_name=1, nrows=17, engine='openpyxl')
+                    
+                    columns = list(df.columns)
+                    for column in columns:
+                        fixed_name = column.replace(' ', '').replace('*', '').replace('-', '')
+                        df.rename(columns={column:fixed_name}, inplace=True)
+                    
+                    df = df.fillna(0)
+                    df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.0f', index=False)
+                    
+                else:
+                    
+                    #2nd format
+                    
+                    # read first sheet
+                    df_a = pd.read_excel(filename, header=[0, 1, 2], sheet_name=1, nrows=17, engine='openpyxl')
+                    df_a = df_a.fillna(0)
+                    
+                    major_col_vac = 'Erstimpfung'
+                    
+                    idx_id = -1
+                    idx_state = -1
+                    idx_vac_sum = -1
+                    idx_vac_inc = -1
+                    idx_vac_biontec = -1
+                    idx_vac_moderna = -1
+                    idx_vac_rate = -1
+                    
+                    for i, column in enumerate(df_a.columns):
+                        column_str = ''
+                        for c in column:
+                            column_str += c + ' '
+                        
+                        if 'RS ' in column_str:
+                            idx_id = i
+                        if 'Bundesland' in column_str:
+                            idx_state = i
+                        if major_col_vac in column_str and 'Gesamt' in column_str:
+                            idx_vac_sum = i
+                        if major_col_vac in column_str and 'Vortag' in column_str:
+                            idx_vac_inc = i
+                        if major_col_vac in column_str and 'BioNTech' in column_str:
+                            idx_vac_biontec = i
+                        if major_col_vac in column_str and 'Moderna' in column_str:
+                            idx_vac_moderna = i
+                        if major_col_vac in column_str and 'quote' in column_str:
+                            idx_vac_rate = i
+                            
+                    # read 2nd sheet
+                    df_b = pd.read_excel(filename, header=[0, 1], sheet_name=2, nrows=17, engine='openpyxl')
+                    df_b = df_b.fillna(0)
+                    
+                    idx_vac_by_age = -1
+                    idx_vac_by_job = -1
+                    idx_vac_by_med = -1
+                    idx_vac_by_ret = -1
+                    
+                    for i, column in enumerate(df_b.columns):
+                        column_str = ''
+                        for c in column:
+                            column_str += '{} '.format(c)
+                            
+                        if major_col_vac in column_str and 'Alter' in column_str:
+                            idx_vac_by_age = i
+                        if major_col_vac in column_str and 'Beruf' in column_str:
+                            idx_vac_by_job = i
+                        if major_col_vac in column_str and 'Medizin' in column_str:
+                            idx_vac_by_med = i
+                        if major_col_vac in column_str and 'Pflege' in column_str:
+                            idx_vac_by_ret = i
+                    
+                    # merge the sheets
+                    dtypes = np.dtype([
+                        ('RS', int),
+                        ('Bundesland', str),
+                        ('Impfungenkumulativ', int),
+                        ('DifferenzzumVortag', int),
+                        ('Impfungenpro1.000Einwohner', float),
+                        ('IndikationnachAlter', int),
+                        ('BeruflicheIndikation', int),
+                        ('MedizinischeIndikation', int),
+                        ('PflegeheimbewohnerIn', int),
+                        ('ImpfungenkumulativBiontec', int),
+                        ('ImpfungenkumulativModerna', int)
+                    ])
+                    
+                    df = pd.DataFrame( np.empty(0, dtype=dtypes) )
+                                        
+                    for i, row in df_a.iterrows():                        
+                        row2 = df_b.iloc[i]                        
+                        data_row = {
+                                'RS':                         int(row[idx_id])          if idx_id >= 0 else 0,
+                                'Bundesland':                 row[idx_state]            if idx_state >= 0 else 0,
+                                'Impfungenkumulativ':         int(row[idx_vac_sum])     if idx_vac_sum >= 0 else 0,
+                                'DifferenzzumVortag':         int(row[idx_vac_inc])     if idx_vac_inc >= 0 else 0,
+                                'Impfungenpro1.000Einwohner': float(row[idx_vac_rate])*10.0 if idx_vac_rate >= 0 else 0,
+                                'IndikationnachAlter':        int(row2[idx_vac_by_age]) if idx_vac_by_age >= 0 else 0,
+                                'BeruflicheIndikation':       int(row2[idx_vac_by_job]) if idx_vac_by_job >= 0 else 0,
+                                'MedizinischeIndikation':     int(row2[idx_vac_by_med]) if idx_vac_by_med >= 0 else 0,
+                                'PflegeheimbewohnerIn':       int(row2[idx_vac_by_ret]) if idx_vac_by_ret >= 0 else 0,
+                                'ImpfungenkumulativBiontec':  int(row[idx_vac_biontec]) if idx_vac_biontec >= 0 else 0,
+                                'ImpfungenkumulativModerna':  int(row[idx_vac_moderna]) if idx_vac_moderna >= 0 else 0
+                        }                        
+                        df = df.append(data_row, ignore_index=True)
+                        
+                        
+                    df = df.fillna(0)                    
+                    df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.3f', index=False)
+        
 # merge CSVs
                 
 columns = [ 
