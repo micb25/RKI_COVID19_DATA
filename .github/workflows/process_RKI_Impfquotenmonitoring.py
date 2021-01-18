@@ -5,8 +5,8 @@ import os, re
 from datetime import datetime
 import pandas as pd
 
-DATAPATH     = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Impfquotenmonitoring' + os.sep
-PARSED_CSV   = 'RKI_COVID19_Impfquotenmonitoring.csv'
+DATAPATH     = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Impfquotenmonitoring' + os.sep + 'raw_data' + os.sep
+PARSED_CSV   = '..' + os.sep + 'RKI_COVID19_Impfquotenmonitoring.csv'
 ONE_DAY_IN_S = 86400
 
 states = {
