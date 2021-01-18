@@ -5,7 +5,7 @@ import requests, os
 from datetime import datetime
 
 VERBOSE      = True
-DATAPATH     = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Impfquotenmonitoring' + os.sep
+DATAPATH     = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Impfquotenmonitoring' + os.sep + 'raw_data' + os.sep
 DATE_STR     = datetime.fromtimestamp(datetime.now().timestamp()).strftime('%Y-%m-%d')
 FILENAME     = 'RKI_COVID19_Impfquotenmonitoring_{}.xlsx'.format(DATE_STR)
 PARSED_CSV   = 'RKI_COVID19_Impfquotenmonitoring.csv'

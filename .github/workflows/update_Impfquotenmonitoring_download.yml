@@ -1,9 +1,9 @@
 name: daily Impfquotenmonitoring download
 
 on:
-  push:
-    branches:
-      - master
+#  push:
+#    branches:
+#      - master
   schedule:
     - cron: "0 14 * * *"
 
@@ -28,7 +28,7 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Impfquotenmonitoring/*.xlsx
+          git add ./Impfquotenmonitoring/raw_data/*.xlsx
           git commit -m "daily Impfquotenmonitoring download"
       - name: Push changes
         uses: ad-m/github-push-action@master
