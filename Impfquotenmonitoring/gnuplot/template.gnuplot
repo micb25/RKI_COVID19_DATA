@@ -121,5 +121,5 @@ xmin = int(STATS_min)
 xmax = int(STATS_max)
 
 # latest update
-update_str = "{/*1.00 Datenquelle: Robert Koch-Institut; letzte Aktualisierung: " . system("date +%d.%m.%Y") . "}"
+update_str = "{/*1.00 Datenquelle: RKI; letztes Update: " . system("date +%d.%m.%Y") . "}"
 
