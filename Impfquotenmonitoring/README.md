@@ -61,3 +61,5 @@ Deutschland                                | Baden-Württemberg
 ## Datenquelle
 
 [tägliche Excel-Tabellen vom Robert Koch-Institut](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html)
+
+Quellenvermerk: Robert Koch-Institut (RKI), dl-de/by-2-0
