@@ -2,10 +2,13 @@
 
 Zusammengesammeltes Archiv von RKI COVID19-Dashboard Datenbank Dumps ab `2020-03-21`.
 
-Quelle (aktueller Tag):
+Quellenvermerk: 
+- Robert Koch-Institut (RKI), [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0)
+
+CSV-Quelle (aktueller Tag):
 - [https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74](https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74)
 
-Quellen (archiviert):
+CSV-Quellen (archiviert):
 - [https://github.com/ard-data/2020-rki-archive/tree/master/data/0_archived](https://github.com/ard-data/2020-rki-archive/tree/master/data/0_archived)
 - [https://github.com/ihucos/rki-covid19-data](https://github.com/ihucos/rki-covid19-data)
 - [https://github.com/CharlesStr/CSV-Dateien-mit-Covid-19-Infektionen-](https://github.com/CharlesStr/CSV-Dateien-mit-Covid-19-Infektionen-)
