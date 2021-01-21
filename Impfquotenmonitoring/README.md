@@ -4,11 +4,17 @@
 
 Daten-Scraper und automatisierte Visualisierung des Impfquotenmonitorings vom Robert Koch-Institut. Die Diagramme in diesem Repository sind lizensiert unter [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/de/).
 
-## Überblick (kumuliert)
+## Überblick – Erstimpfung (kumuliert)
 
-geimpfter Bevölkerungsanteil nach Bundesland |
-:-------------------------------------------:|
-![](gnuplot/plot_vac_rel_overview.png)       |
+Bevölkerungsanteil mit Erstimpfung nach Bundesland |
+:-------------------------------------------------:|
+![](gnuplot/plot_vac_rel_overview.png)             |
+
+## Überblick – Zweitimpfung (kumuliert)
+
+Bevölkerungsanteil mit Zweitimpfung nach Bundesland |
+:--------------------------------------------------:|
+![](gnuplot/plot_vac_rel_overview_2nd_vac.png)      |
 
 ## geimpfter Bevölkerungsanteil (kumuliert)
 

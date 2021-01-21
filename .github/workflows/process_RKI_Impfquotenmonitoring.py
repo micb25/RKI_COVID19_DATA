@@ -70,6 +70,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     df_a = df_a.fillna(0)
                     
                     major_col_vac = 'Erstimpfung'
+                    major_col_vac_2nd = 'Zweitimpfung'
                     
                     idx_id = -1
                     idx_state = -1
@@ -78,6 +79,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_vac_biontec = -1
                     idx_vac_moderna = -1
                     idx_vac_rate = -1
+                    idx_vac_2nd_sum = -1
+                    idx_vac_2nd_inc = -1
                     
                     for i, column in enumerate(df_a.columns):
                         column_str = ''
@@ -98,7 +101,11 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             idx_vac_moderna = i
                         if major_col_vac in column_str and 'quote' in column_str:
                             idx_vac_rate = i
-                            
+                        if major_col_vac_2nd in column_str and 'kumulativ' in column_str:
+                            idx_vac_2nd_sum = i
+                        if major_col_vac_2nd in column_str and 'Vortag' in column_str and idx_vac_2nd_inc == -1:
+                            idx_vac_2nd_inc = i
+
                     # read 2nd sheet
                     df_b = pd.read_excel(filename, header=[0, 1], sheet_name=2, nrows=17, engine='openpyxl')
                     df_b = df_b.fillna(0)
@@ -134,7 +141,9 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         ('MedizinischeIndikation', int),
                         ('PflegeheimbewohnerIn', int),
                         ('ImpfungenkumulativBiontec', int),
-                        ('ImpfungenkumulativModerna', int)
+                        ('ImpfungenkumulativModerna', int),
+                        ('ZweiteImpfungkumulativ', int),
+                        ('ZweiteImpfungDifferenzzumVortag', int)
                     ])
                     
                     df = pd.DataFrame( np.empty(0, dtype=dtypes) )
@@ -142,17 +151,19 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     for i, row in df_a.iterrows():                        
                         row2 = df_b.iloc[i]                        
                         data_row = {
-                                'RS':                         int(row[idx_id])          if idx_id >= 0 else 0,
-                                'Bundesland':                 row[idx_state]            if idx_state >= 0 else 0,
-                                'Impfungenkumulativ':         int(row[idx_vac_sum])     if idx_vac_sum >= 0 else 0,
-                                'DifferenzzumVortag':         int(row[idx_vac_inc])     if idx_vac_inc >= 0 else 0,
-                                'Impfungenpro1.000Einwohner': float(row[idx_vac_rate])*10.0 if idx_vac_rate >= 0 else 0,
-                                'IndikationnachAlter':        int(row2[idx_vac_by_age]) if idx_vac_by_age >= 0 else 0,
-                                'BeruflicheIndikation':       int(row2[idx_vac_by_job]) if idx_vac_by_job >= 0 else 0,
-                                'MedizinischeIndikation':     int(row2[idx_vac_by_med]) if idx_vac_by_med >= 0 else 0,
-                                'PflegeheimbewohnerIn':       int(row2[idx_vac_by_ret]) if idx_vac_by_ret >= 0 else 0,
-                                'ImpfungenkumulativBiontec':  int(row[idx_vac_biontec]) if idx_vac_biontec >= 0 else 0,
-                                'ImpfungenkumulativModerna':  int(row[idx_vac_moderna]) if idx_vac_moderna >= 0 else 0
+                                'RS':                              int(row[idx_id])          if idx_id >= 0 else 0,
+                                'Bundesland':                      row[idx_state]            if idx_state >= 0 else 0,
+                                'Impfungenkumulativ':              int(row[idx_vac_sum])     if idx_vac_sum >= 0 else 0,
+                                'DifferenzzumVortag':              int(row[idx_vac_inc])     if idx_vac_inc >= 0 else 0,
+                                'Impfungenpro1.000Einwohner':      float(row[idx_vac_rate])*10.0 if idx_vac_rate >= 0 else 0,
+                                'IndikationnachAlter':             int(row2[idx_vac_by_age]) if idx_vac_by_age >= 0 else 0,
+                                'BeruflicheIndikation':            int(row2[idx_vac_by_job]) if idx_vac_by_job >= 0 else 0,
+                                'MedizinischeIndikation':          int(row2[idx_vac_by_med]) if idx_vac_by_med >= 0 else 0,
+                                'PflegeheimbewohnerIn':            int(row2[idx_vac_by_ret]) if idx_vac_by_ret >= 0 else 0,
+                                'ImpfungenkumulativBiontec':       int(row[idx_vac_biontec]) if idx_vac_biontec >= 0 else 0,
+                                'ImpfungenkumulativModerna':       int(row[idx_vac_moderna]) if idx_vac_moderna >= 0 else 0,
+                                'ZweiteImpfungkumulativ':          int(row[idx_vac_2nd_sum]) if idx_vac_2nd_sum >= 0 else 0,
+                                'ZweiteImpfungDifferenzzumVortag': int(row[idx_vac_2nd_inc]) if idx_vac_2nd_inc >= 0 else 0
                         }                        
                         df = df.append(data_row, ignore_index=True)
                         
@@ -163,8 +174,9 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
 # merge CSVs
                 
 columns = [ 
-        "timestamp", "ISODate", "IdBundesland", "Bundesland", 
-        "Impfungenkumulativ", "DifferenzzumVortag", "IndikationnachAlter", "BeruflicheIndikation", "MedizinischeIndikation", "PflegeheimbewohnerIn" 
+        'timestamp', 'ISODate', 'IdBundesland', 'Bundesland', 
+        'Impfungenkumulativ', 'DifferenzzumVortag', 'IndikationnachAlter', 'BeruflicheIndikation', 'MedizinischeIndikation', 'PflegeheimbewohnerIn',
+        'ZweiteImpfungkumulativ', 'ZweiteImpfungDifferenzzumVortag'
 ]
 
 df_export = pd.DataFrame(columns=columns)
@@ -192,12 +204,14 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'ISODate': isodate, 
                             'IdBundesland': idBundesland, 
                             'Bundesland': state_name,
-                            'Impfungenkumulativ': row['Impfungenkumulativ'] if row['Impfungenkumulativ'] is not None else 0,
-                            'DifferenzzumVortag': row['DifferenzzumVortag'] if row['DifferenzzumVortag'] is not None else 0,
-                            'IndikationnachAlter': row['IndikationnachAlter'] if row['IndikationnachAlter'] is not None else 0,
-                            'BeruflicheIndikation': row['BeruflicheIndikation'] if row['BeruflicheIndikation'] is not None else 0,
-                            'MedizinischeIndikation': row['MedizinischeIndikation'] if row['MedizinischeIndikation'] is not None else 0,
-                            'PflegeheimbewohnerIn': row['PflegeheimbewohnerIn'] if row['PflegeheimbewohnerIn'] is not None else 0
+                            'Impfungenkumulativ': row['Impfungenkumulativ'] if 'Impfungenkumulativ' in row else 0,
+                            'DifferenzzumVortag': row['DifferenzzumVortag'] if 'DifferenzzumVortag' in row else 0,
+                            'IndikationnachAlter': row['IndikationnachAlter'] if 'IndikationnachAlter' in row else 0,
+                            'BeruflicheIndikation': row['BeruflicheIndikation'] if 'BeruflicheIndikation' in row else 0,
+                            'MedizinischeIndikation': row['MedizinischeIndikation'] if 'MedizinischeIndikation' in row else 0,
+                            'PflegeheimbewohnerIn': row['PflegeheimbewohnerIn'] if 'PflegeheimbewohnerIn' in row else 0,
+                            'ZweiteImpfungkumulativ': row['ZweiteImpfungkumulativ'] if 'ZweiteImpfungkumulativ' in row else 0,
+                            'ZweiteImpfungDifferenzzumVortag': row['ZweiteImpfungDifferenzzumVortag'] if 'ZweiteImpfungDifferenzzumVortag' in row else 0
                     }
                                         
                     df_export = df_export.append(row_data, ignore_index=True)
