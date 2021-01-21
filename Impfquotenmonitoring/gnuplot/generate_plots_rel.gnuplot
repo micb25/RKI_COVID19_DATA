@@ -3,6 +3,8 @@ CSV_SOURCE = "../RKI_COVID19_Impfquotenmonitoring.csv"
 
 load "template.gnuplot"
 
+set offsets 0.00, 0.00, graph 0.25, 0.00
+
 set xrange [xmin:xmax]
 set xdata time
 set timefmt "%s"
@@ -10,9 +12,10 @@ set format x "%d.%m.%y"
 
 set lmargin 12.60
 
-PLOT_TITLE = "Impfungen kumulativ"
-PLOT_STYLE = 1
-INDEX_COL = 5
+PLOT_TITLE1 = "Erstimpfungen"
+PLOT_TITLE2 = "Zweitimpfungen"
+PLOT_STYLE1 = 1
+PLOT_STYLE2 = 2
 
 do for [i=0:NUM_STATES-1] {
 	output_name = sprintf("plot_vac_rel_%i.png", i)
