@@ -1,8 +1,18 @@
-# RKI Impfquotenmonitoring
+# RKI Impfquotenmonitoring zur COVID-19-Impfung
 
 ## Beschreibung
 
-Daten-Scraper und automatisierte Visualisierung des Impfquotenmonitorings vom Robert Koch-Institut. Die Diagramme in diesem Repository sind lizensiert unter [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/de/).
+Daten-Scraper und automatisierte Visualisierung des COVID-19-Impfquotenmonitorings vom Robert Koch-Institut. Die Diagramme in diesem Repository sind lizensiert unter [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/de/) und werden einmal täglich aktualisiert.
+
+### Autor
+
+[Michael Böhme](https://github.com/micb25) ([@theochemiker](https://twitter.com/theochemiker))
+
+### Datenquelle
+
+[tägliche Excel-Tabelle vom Robert Koch-Institut](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html)
+
+Quellenvermerk: Robert Koch-Institut (RKI), [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0)
 
 ## Überblick – Erstimpfung (kumuliert)
 
@@ -59,13 +69,3 @@ Deutschland                                | Baden-Württemberg
 ![](gnuplot/plot_vac_15.png)               | ![](gnuplot/plot_vac_1.png)
 **Thüringen**                              | ​
 ![](gnuplot/plot_vac_16.png)               | ​
-
-## Autor
-
-[Michael Böhme](https://github.com/micb25) ([@theochemiker](https://twitter.com/theochemiker))
-
-## Datenquelle
-
-[tägliche Excel-Tabellen vom Robert Koch-Institut](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html)
-
-Quellenvermerk: Robert Koch-Institut (RKI), [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0)
