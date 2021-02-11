@@ -101,7 +101,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             idx_vac_moderna = i
                         if major_col_vac in column_str and 'quote' in column_str:
                             idx_vac_rate = i
-                        if major_col_vac_2nd in column_str and 'kumulativ' in column_str:
+                        if major_col_vac_2nd in column_str and 'kumulativ' in column_str and idx_vac_2nd_sum == -1:
                             idx_vac_2nd_sum = i
                         if major_col_vac_2nd in column_str and 'Vortag' in column_str and idx_vac_2nd_inc == -1:
                             idx_vac_2nd_inc = i
