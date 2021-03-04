@@ -49,8 +49,8 @@ set style fill transparent solid 0.20 border
 # set datafile separator ","
 
 # axes
-set xtics 2*86400 out nomirror rotate by 90 offset 0, -4.1 scale 1.2
-set mxtics 2
+set xtics 7*86400 out nomirror rotate by 90 offset 0, -4.1 scale 1.2
+set mxtics 7
 
 # y-axis setup
 unset ylabel

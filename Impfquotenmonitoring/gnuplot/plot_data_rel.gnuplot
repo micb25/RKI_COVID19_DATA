@@ -1,7 +1,7 @@
 
 # x-axis setup
 set ylabel "Bevölkerungsanteil"
-set format y '%4.1f%%'
+set format y '%4.0f%%'
 set yrange [0: 0.1 < * < 100]
 
 set label 1  at graph 0.99, 0.95 sprintf("{/Helvetica-Bold %s}", REGION) right textcolor ls 10
