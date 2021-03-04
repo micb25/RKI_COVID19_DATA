@@ -149,7 +149,12 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     df = pd.DataFrame( np.empty(0, dtype=dtypes) )
                                         
                     for i, row in df_a.iterrows():                        
-                        row2 = df_b.iloc[i]                        
+                        row2 = df_b.iloc[i]      
+                        
+                        # skip other lines
+                        if 'Bundes' in str(row2['Bundesland']):
+                            continue
+                        
                         data_row = {
                                 'RS':                              int(row[idx_id])          if idx_id >= 0 else 0,
                                 'Bundesland':                      row[idx_state]            if idx_state >= 0 else 0,
