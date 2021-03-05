@@ -152,7 +152,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         row2 = df_b.iloc[i]      
                         
                         # skip other lines
-                        if 'Bundes' in str(row2['Bundesland']):
+                        if 'Bund' in str(row2['Bundesland']):
                             continue
                         
                         data_row = {
