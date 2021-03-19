@@ -1,4 +1,4 @@
-name: daily RKI Testzahlen
+name: weekly RKI Testzahlen
 
 on:
 #  push:
