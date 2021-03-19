@@ -25,7 +25,7 @@ jobs:
       - name: download Intensivregister
         run: cd .github/workflows/ && env python3 ./download_Intensivregister.py && cd ../../
       - name: compress Intesivregister dump
-        run: gzip *.csv
+        run: gzip ./Intensivregister/raw_data/*.csv
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
