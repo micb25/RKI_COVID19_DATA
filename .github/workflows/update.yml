@@ -4,6 +4,7 @@ on:
 #  push:
 #    branches:
 #      - master
+  workflow_dispatch:
   schedule:
     - cron: "30 14 * * *"
 
@@ -23,6 +24,8 @@ jobs:
           pip install requests
       - name: download RKI dump
         run: cd .github/workflows/ && env python3 ./download_RKI_COVID19.py && cd ../../
+      - name: copy RKI dump to _latest file
+        run: cp *.csv RKI_COVID19_latest.csv
       - name: compress RKI dump
         run: gzip *.csv
       - name: Commit files
