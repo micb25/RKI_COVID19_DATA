@@ -5,7 +5,7 @@ on:
 #    branches:
 #      - master
   schedule:
-    - cron: "30 6 * * *"
+    - cron: "30 14 * * *"
 
 jobs:
   update_page:
