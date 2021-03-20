@@ -30,7 +30,7 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Intensivregister/raw_data/*.csv.gz
+          git add ./Nowcasting/raw_data/*.csv.gz
           git commit -m "daily update Nowcasting"
       - name: Push changes
         uses: ad-m/github-push-action@master
