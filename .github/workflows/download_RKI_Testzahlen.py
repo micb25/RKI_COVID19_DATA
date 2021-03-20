@@ -9,6 +9,7 @@ DATAPATH = os.path.dirname(os.path.abspath(
     __file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Testzahlen' + os.sep + 'raw_data' + os.sep
 DATE_STR = datetime.now().date().strftime('%Y-%m-%d')
 FILENAME = 'Testzahlen-gesamt_{date}.xlsx'.format(date=DATE_STR)
+FILENAME_LATEST = 'Testzahlen-gesamt_{date}.xlsx'.format(date='latest')
 FULLNAME = DATAPATH + FILENAME
 CSV_URL = "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile"
 
@@ -32,5 +33,9 @@ else:
     else:
 
         with open(FULLNAME, 'wb') as df:
+            df.write(r.content)
+            df.close()
+
+        with open(DATAPATH+FILENAME_LATEST, 'wb') as df:
             df.write(r.content)
             df.close()
