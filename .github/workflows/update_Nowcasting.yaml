@@ -26,7 +26,7 @@ jobs:
         run: cd .github/workflows/ && env python3 ./download_Nowcasting.py && cd ../../
       - name: compress Nowcasting dump
         run: |
-          gzip -f ./Nowcasting/raw_data/*.csv | tee >> ./Nowcasting/raw_data/Nowcasting_Zahlen_csv_latest.csv.gz
+          gzip -f ./Nowcasting/raw_data/*.csv | tee > ./Nowcasting/raw_data/Nowcasting_Zahlen_csv_latest.csv.gz
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}

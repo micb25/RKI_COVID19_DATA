@@ -25,7 +25,7 @@ jobs:
       - name: download RKI dump
         run: cd .github/workflows/ && env python3 ./download_RKI_COVID19.py && cd ../../
       - name: compress RKI dump and create lates
-        run: gzip -f *.csv | tee >> RKI_COVID19_latest.csv.gz
+        run: gzip -f *.csv | tee > RKI_COVID19_latest.csv.gz
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
