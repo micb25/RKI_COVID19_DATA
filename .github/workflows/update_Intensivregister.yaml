@@ -24,14 +24,10 @@ jobs:
           pip install requests
       - name: download Intensivregister
         run: cd .github/workflows/ && env python3 ./download_Intensivregister.py && cd ../../
-      - name: compress Intesivregister dump
-        run: |
-          gzip -f ./Intensivregister/raw_data/bundesland-zeitreihe_*.csv | tee > ./Intensivregister/raw_data/bundesland-zeitreihe_latest.csv.gz
-          gzip -f ./Intensivregister/raw_data/DIVI_Intensivregister_Auszug_pro_Landkreis_*.csv | tee > ./Intensivregister/raw_data/DIVI_Intensivregister_Auszug_pro_Landkreis_latest.csv.gz
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Intensivregister/raw_data/*.csv.gz
+          git add ./Intensivregister/raw_data/*.*
           git commit -m "daily update Intensivregister"
       - name: Push changes
         uses: ad-m/github-push-action@master

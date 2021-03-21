@@ -24,13 +24,10 @@ jobs:
           pip install requests
       - name: download Nowcasting
         run: cd .github/workflows/ && env python3 ./download_Nowcasting.py && cd ../../
-      - name: compress Nowcasting dump
-        run: |
-          gzip -f ./Nowcasting/raw_data/*.csv | tee > ./Nowcasting/raw_data/Nowcasting_Zahlen_csv_latest.csv.gz
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Nowcasting/raw_data/*.csv.gz
+          git add ./Nowcasting/raw_data/*.*
           git commit -m "daily update Nowcasting"
       - name: Push changes
         uses: ad-m/github-push-action@master
