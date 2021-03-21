@@ -35,7 +35,10 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Impfquotenmonitoring/raw_data/*.xlsx ./Impfquotenmonitoring/*.csv ./Impfquotenmonitoring/raw_data/*.csv ./Impfquotenmonitoring/gnuplot/*.png
+          git add ./Impfquotenmonitoring/raw_data/*.xlsx
+          git add ./Impfquotenmonitoring/*.csv
+          git add ./Impfquotenmonitoring/raw_data/*.csv
+          git add ./Impfquotenmonitoring/gnuplot/*.png
           git commit -m "daily Impfquotenmonitoring download"
       - name: Push changes
         uses: ad-m/github-push-action@master
