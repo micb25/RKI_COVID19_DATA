@@ -11,7 +11,7 @@ set rmargin 5.0
 set bmargin 5.0
 
 set xlabel "geimpfter Bevölkerungsanteil (kumuliert)"
-set format x '%4.1f%%'
+set format x '%4.0f%%'
 set xrange [0: 1 < * < 100 ]
 set yrange [1:16]
 set style fill solid
@@ -29,7 +29,7 @@ set ytics ( \
 
 population_cnt(x) = population[ x ]
 
-set xtics 0, 0.5, 20 out nomirror rotate by 0 offset 0, 0 scale 1.2
+set xtics 0, 2, 100 out nomirror rotate by 0 offset 0, 0 scale 1.2
 set mxtics 2
 
 # y-axis setup
