@@ -1,11 +1,12 @@
-name: daily Impfquotenmonitoring download
+name: daily Impfquotenmonitoring download and processing
 
 on:
 #  push:
 #    branches:
 #      - master
+  workflow_dispatch:
   schedule:
-    - cron: "0 14 * * *"
+    - cron: "15 15 * * *"
 
 jobs:
   update_page:
@@ -25,10 +26,14 @@ jobs:
           pip install requests
       - name: download RKI Impfquotenmonitoring
         run: cd .github/workflows/ && env python3 ./download_RKI_Impfquotenmonitoring.py && cd ../../
+      - name: process RKI Impfquotenmonitoring
+        run: cd .github/workflows/ && env python3 ./process_RKI_Impfquotenmonitoring.py && cd ../../
+      - name: run gnuplot
+        run: cd Impfquotenmonitoring/gnuplot/ && chmod +x ./generate_plots.sh && ./generate_plots.sh && cd ../../
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Impfquotenmonitoring/raw_data/*.xlsx
+          git add ./Impfquotenmonitoring/raw_data/*.xlsx ./Impfquotenmonitoring/*.csv ./Impfquotenmonitoring/raw_data/*.csv ./Impfquotenmonitoring/gnuplot/*.png
           git commit -m "daily Impfquotenmonitoring download"
       - name: Push changes
         uses: ad-m/github-push-action@master

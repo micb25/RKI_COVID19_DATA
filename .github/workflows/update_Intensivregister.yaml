@@ -27,7 +27,7 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Intensivregister/raw_data/*.*
+          git add ./Intensivregister/raw_data/*.gz
           git commit -m "daily update Intensivregister"
       - name: Push changes
         uses: ad-m/github-push-action@master

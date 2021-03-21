@@ -1,4 +1,4 @@
-name: daily RKI_Covid update
+name: weekly RKI Testzahlen
 
 on:
 #  push:
@@ -6,7 +6,7 @@ on:
 #      - master
   workflow_dispatch:
   schedule:
-    - cron: "30 14 * * *"
+    - cron: "30 15 * * WED"
 
 jobs:
   update_page:
@@ -22,16 +22,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests
-      - name: download RKI dump
-        run: cd .github/workflows/ && env python3 ./download_RKI_COVID19.py && cd ../../
+      - name: download RKI Testzahlen
+        run: cd .github/workflows/ && env python3 ./download_RKI_Testzahlen.py && cd ../../
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./*.*
-          git commit -m "daily update RKI_Covid"
+          git add ./Testzahlen/raw_data/*.xlsx
+          git commit -m "weekly update Testzahlen"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
-        

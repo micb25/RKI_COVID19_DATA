@@ -1,41 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import requests, os
-from datetime import datetime
+from download_pkg import DownloadFile
+import os
 
-VERBOSE = True
-DATAPATH = os.path.dirname(os.path.abspath(
-    __file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'Testzahlen' + os.sep + 'raw_data' + os.sep
-DATE_STR = datetime.now().date().strftime('%Y-%m-%d')
-FILENAME = 'Testzahlen-gesamt_{date}.xlsx'.format(date=DATE_STR)
-FILENAME_LATEST = 'Testzahlen-gesamt_{date}.xlsx'.format(date='latest')
-FULLNAME = DATAPATH + FILENAME
-CSV_URL = "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile"
+data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Testzahlen', 'raw_data')
+filename = 'Testzahlen-gesamt.xlsx'
+url = "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile"
 
-# download latest data
-if os.path.isfile(FULLNAME):
-
-    if VERBOSE:
-        print("The file '{}' exists already.".format(FILENAME))
-
-else:
-
-    if VERBOSE:
-        print("The file '{}' does not exist.".format(FILENAME))
-
-    headers = {'Pragma': 'no-cache', 'Cache-Control': 'no-cache'}
-
-    r = requests.get(CSV_URL, headers=headers, allow_redirects=True, timeout=5.0)
-    if r.status_code != 200:
-        print("Download failed!")
-
-    else:
-
-        with open(FULLNAME, 'wb') as df:
-            df.write(r.content)
-            df.close()
-
-        with open(DATAPATH+FILENAME_LATEST, 'wb') as df:
-            df.write(r.content)
-            df.close()
+a = DownloadFile(url=url, filename=filename, download_path=data_path, compress=False,add_date=True,add_latest=True)
+a.write_file()
