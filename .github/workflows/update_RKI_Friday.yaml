@@ -1,4 +1,4 @@
-name: weekly RKI Klinische Aspekte
+name: weekly RKI Friday Update
 
 on:
 #  push:
@@ -6,7 +6,7 @@ on:
 #      - master
   workflow_dispatch:
   schedule:
-    - cron: "* 16 * * TUE"
+    - cron: "* 16 * * FRI"
 
 jobs:
   update_page:
@@ -22,14 +22,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests
-      - name: download RKI Klinische Aspekte
-        run: env python3 ./download_RKI_Klinische_Aspekte.py
+      - name: download RKI Todesfaelle
+        run: env python3 ./download_RKI_Todesfaelle.py
         working-directory: ./.github/workflows
+        continue-on-error: true
+        timeout-minutes: 10
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
           git add ':/*.xlsx'
-          git commit -m "weekly update Klinische Aspekte"
+          git commit --short -m "weekly update Todesfaelle"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:

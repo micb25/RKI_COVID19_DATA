@@ -1,4 +1,4 @@
-name: weekly RKI Testzahlen
+name: weekly RKI Wednesday Update
 
 on:
 #  push:
@@ -23,12 +23,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: download RKI Testzahlen
-        run: cd .github/workflows/ && env python3 ./download_RKI_Testzahlen.py && cd ../../
+        run: env python3 ./download_RKI_Testzahlen.py
+        working-directory: ./.github/workflows
+        continue-on-error: true
+        timeout-minutes: 10
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./Testzahlen/raw_data/*.xlsx
-          git commit -m "weekly update Testzahlen"
+          git add ':/*.xlsx'
+          git commit --short -m "weekly update Testzahlen"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:

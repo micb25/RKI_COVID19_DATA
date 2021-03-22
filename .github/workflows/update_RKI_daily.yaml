@@ -1,4 +1,4 @@
-name: daily update and process all
+name: daily RKI update and processing
 
 on:
 #  push:
@@ -32,12 +32,17 @@ jobs:
         continue-on-error: true
         timeout-minutes: 20
       - name: download Nowcasting
-        run: env python3 ./download_Nowcasting.py
+        run: env python3 ./download_RKI_Nowcasting.py
         working-directory: ./.github/workflows
         continue-on-error: true
         timeout-minutes: 10
       - name: download Intensivregister
         run: env python3 ./download_Intensivregister.py
+        working-directory: ./.github/workflows
+        continue-on-error: true
+        timeout-minutes: 10
+      - name: download Fallzahlen
+        run: env python3 ./download_RKI_Fallzahlen.py
         working-directory: ./.github/workflows
         continue-on-error: true
         timeout-minutes: 10
