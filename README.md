@@ -5,7 +5,7 @@ Zusammengesammeltes Archiv von RKI COVID19-Dashboard Datenbank Dumps ab `2020-03
 Sekundäre Quellen in separaten Ordnern:
 
 - Impfquotenmonitoring
-- Nowcating
+- Nowcasting
 - Testzahlen
 - Intensivregister 
 
