@@ -2,6 +2,17 @@
 
 Zusammengesammeltes Archiv von RKI COVID19-Dashboard Datenbank Dumps ab `2020-03-21`.
 
+Sekundäre Quellen in separaten Ordnern:
+
+- Impfquotenmonitoring
+- Nowcating
+- Testzahlen
+- Intensivregister 
+
+Update aller Quellen jeden Tag um 15 Uhr.
+
+Die jeweils aktuelleste Datei wird immer kopiert und mit dem Prefix latest statt dem Datum versehen. Dies ermöglicht einen komfortablen direkten Zugriff auf die jeweils aktuellste Datei.
+
 Quellenvermerk: 
 - Robert Koch-Institut (RKI), [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0)
 
