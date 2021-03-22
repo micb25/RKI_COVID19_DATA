@@ -50,7 +50,7 @@ jobs:
         run: env python3 ./process_RKI_Impfquotenmonitoring.py
         working-directory: ./.github/workflows
         continue-on-error: true
-        timeout-minutes: 10
+        timeout-minutes: 60
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
