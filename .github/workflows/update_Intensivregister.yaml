@@ -5,8 +5,8 @@ on:
 #    branches:
 #      - master
   workflow_dispatch:
-  schedule:
-    - cron: "0 15 * * *"
+#  schedule:
+#    - cron: "0 15 * * *"
 
 jobs:
   update_page:
