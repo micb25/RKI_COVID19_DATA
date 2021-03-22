@@ -1,4 +1,4 @@
-# Klinische Aspekte
+# Altersverteilung
 
 Wöchentlicher Abzug der Altersverteilung vom RKI ab 2021-03-16
 
