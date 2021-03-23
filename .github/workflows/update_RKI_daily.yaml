@@ -64,8 +64,12 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add -A
-          git commit --short -m "daily update and processing"
+          git add :/*.gz
+          git add :/*.xlsx
+          git add :/*.csv
+          git add :/*.png
+          git status -s
+          git commit -m "daily update and processing"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
