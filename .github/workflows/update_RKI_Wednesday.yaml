@@ -31,7 +31,8 @@ jobs:
         run: |
           git config --local user.name  ${{ github.actor }}
           git add ':/*.xlsx'
-          git commit --short -m "weekly update Testzahlen"
+          git status -s
+          git commit -m "weekly update wednesday"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
