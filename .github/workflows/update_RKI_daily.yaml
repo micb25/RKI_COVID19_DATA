@@ -56,13 +56,15 @@ jobs:
         working-directory: ./.github/workflows
         continue-on-error: true
         timeout-minutes: 60
+      - name: run gnuplot
+        run: chmod +x ./generate_plots.sh && ./generate_plots.sh
+        working-directory: ./Impfquotenmonitoring/gnuplot
+        continue-on-error: true
+        timeout-minutes: 20
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add :/*.gz
-          git add :/*.xlsx
-          git add :/*.csv
-          git add :/*.png
+          git add -A
           git commit --short -m "daily update and processing"
       - name: Push changes
         uses: ad-m/github-push-action@master
