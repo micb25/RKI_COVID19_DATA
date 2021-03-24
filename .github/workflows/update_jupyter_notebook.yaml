@@ -18,12 +18,10 @@ jobs:
         with:
           auto-activate-base: true
           activate-environment: ""
-          mamba-version: "*"
           miniconda-version: "latest"
       - name: Install anaconda
         run: |
-          mamba install anaconda
-          mamba update --all
+          conda install anaconda
       - name: Execute python script
         run: |
           python conda_action_test-py
