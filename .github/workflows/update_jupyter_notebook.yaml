@@ -25,11 +25,10 @@ jobs:
       - uses: yaananth/run-notebook@v1
         env:
           RUNNER: ${{ toJson(runner) }}
+          SECRETS: ${{ toJson(secrets) }}
           GITHUB: ${{ toJson(github) }}
         with:
           notebook: "./Auswertung/Jupyter/covid.ipynb"
-          isReport: False
-          poll: True
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
