@@ -22,7 +22,7 @@ jobs:
       - name: Install anaconda
         run: |
           conda install -y anaconda
-      - uses:  asegal/run-notebook
+      - uses:  asegal/run-notebook@v1.1
         env:
           RUNNER: ${{ toJson(runner) }}
           SECRETS: ${{ toJson(secrets) }}
