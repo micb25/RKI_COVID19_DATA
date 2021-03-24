@@ -22,9 +22,6 @@ jobs:
       - name: Install anaconda
         run: |
           conda install -y anaconda
-      - name: Execute python script
-        run: |
-          python conda_action_test.py
       - uses: yaananth/run-notebook@v1
         env:
           RUNNER: ${{ toJson(runner) }}
