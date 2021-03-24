@@ -18,7 +18,6 @@ jobs:
         with:
           auto-activate-base: true
           activate-environment: ""
-          python-version: 3.8
           mamba-version: "*"
           miniconda-version: "latest"
       - name: Install anaconda
