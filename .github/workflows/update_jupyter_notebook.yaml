@@ -1,0 +1,46 @@
+name: Update jupyter notebooks
+
+on:
+#  push:
+#    branches:
+#      - master
+  workflow_dispatch:
+
+jobs:
+  update_page:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: update apt
+        run: sudo apt-get update
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-activate-base: true
+          activate-environment: ""
+          python-version: 3.8
+          mamba-version: "*"
+          miniconda-version: "latest"
+      - name: Install anaconda
+        run: |
+          mamba install anaconda
+          mamba update --all
+      - name: Execute python script
+        run: |
+          python conda_action_test-py
+        working-directory: ./Auswertung
+      - name: Commit files
+        run: |
+          git config --local user.name  ${{ github.actor }}
+          git add :/*.gz
+          git add :/*.xlsx
+          git add :/*.csv
+          git add :/*.png
+          git status -s
+          git commit -m "Update workbooks"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+
