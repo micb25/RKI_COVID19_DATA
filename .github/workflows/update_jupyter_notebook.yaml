@@ -21,10 +21,10 @@ jobs:
           miniconda-version: "latest"
       - name: Install anaconda
         run: |
-          conda install anaconda
+          conda install -y anaconda
       - name: Execute python script
         run: |
-          python conda_action_test-py
+          python conda_action_test.py
         working-directory: ./Auswertung
       - name: Commit files
         run: |
