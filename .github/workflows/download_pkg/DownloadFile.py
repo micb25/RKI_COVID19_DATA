@@ -1,4 +1,4 @@
-import requests, os, gzip
+import requests, os, lzma
 from datetime import datetime
 from shutil import copyfile
 
@@ -20,14 +20,14 @@ class DownloadFile():
             path=path+"_"+DATE_STR
         path = path+self._file_extension
         if self.compress:
-            path = path+".gz"
+            path = path+".xz"
         return path
 
     @property
     def full_path_latest(self):
         path = os.path.join(self.download_path,self._file_name_root+"_latest"+self._file_extension)
         if self.compress:
-            path = path + ".gz"
+            path = path + ".xz"
         return path
 
     @property
@@ -42,7 +42,7 @@ class DownloadFile():
         
     def write_file(self):
         if self.compress:
-            with gzip.open(self.full_path, 'wb') as file:
+            with lzma.open(self.full_path, 'wb') as file:
                 file.write(self.content)
                 file.close()
         else:
