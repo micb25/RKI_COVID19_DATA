@@ -65,6 +65,7 @@ jobs:
         run: |
           git config --local user.name  ${{ github.actor }}
           git add :/*.gz
+          git add :/*.xz
           git add :/*.xlsx
           git add :/*.csv
           git add :/*.png
