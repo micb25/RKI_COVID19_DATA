@@ -8,5 +8,5 @@ data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..',
 filename = 'Nowcasting_Zahlen_csv.csv'
 url = "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting_Zahlen_csv.csv?__blob=publicationFile"
 
-a = DownloadFile(url=url, filename=filename, download_path=data_path, compress=True,add_date=True,add_latest=True)
+a = DownloadFile(url=url, filename=filename, download_path=data_path, compress=True,add_date=True,add_latest=False)
 a.write_file()

@@ -1,4 +1,5 @@
 .idea/
+.ptmp*/
 
 # Python defaults
 # Byte-compiled / optimized / DLL files
@@ -139,3 +140,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+

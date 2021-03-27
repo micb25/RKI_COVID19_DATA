@@ -12,9 +12,9 @@ filename_zeitreihe = 'bundesland-zeitreihe.csv'
 url_zeitreihe = "https://diviexchange.blob.core.windows.net/%24web/bundesland-zeitreihe.csv"
 
 #download Tagedaten
-a = DownloadFile(url=url_tagesdaten, filename=filename_tagesdaten, download_path=data_path, compress=True,add_date=True,add_latest=True)
+a = DownloadFile(url=url_tagesdaten, filename=filename_tagesdaten, download_path=data_path, compress=True,add_date=True,add_latest=False)
 a.write_file()
 
 #download Zeitreihe
-b = DownloadFile(url=url_zeitreihe, filename=filename_zeitreihe, download_path=data_path, compress=True,add_date=True,add_latest=True)
+b = DownloadFile(url=url_zeitreihe, filename=filename_zeitreihe, download_path=data_path, compress=True,add_date=True,add_latest=False)
 b.write_file()
