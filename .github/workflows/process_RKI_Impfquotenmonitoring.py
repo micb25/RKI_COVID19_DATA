@@ -66,7 +66,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     #2nd format
                     
                     # read first sheet
-                    df_a = pd.read_excel(filename, header=[0, 1, 2], sheet_name=1, nrows=17, engine='openpyxl')
+                    df_a = pd.read_excel(filename, header=[0, 1, 2], sheet_name=1, nrows=18, engine='openpyxl')
                     df_a = df_a.fillna(0)
                     
                     major_col_vac = 'Erstimpfung'
@@ -107,7 +107,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             idx_vac_2nd_inc = i
 
                     # read 2nd sheet
-                    df_b = pd.read_excel(filename, header=[0, 1], sheet_name=2, nrows=17, engine='openpyxl')
+                    df_b = pd.read_excel(filename, header=[0, 1], sheet_name=2, nrows=18, engine='openpyxl')
                     df_b = df_b.fillna(0)
                     
                     idx_vac_by_age = -1
@@ -155,6 +155,10 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         if 'Bund' in str(row2['Bundesland']):
                             continue
                         
+                        # skip empty lines
+                        if str(row[idx_state]) == '0':
+                            continue
+                                                
                         data_row = {
                                 'RS':                              int(row[idx_id])          if idx_id >= 0 else 0,
                                 'Bundesland':                      row[idx_state]            if idx_state >= 0 else 0,
