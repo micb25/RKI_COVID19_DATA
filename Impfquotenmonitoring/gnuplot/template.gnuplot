@@ -34,13 +34,14 @@ set style line  31 lc rgb '#0000FF' lt 1 lw 1 pt 7 ps 1.50
 set style line  32 lc rgb '#0000A0' lt 1 lw 1 pt 7 ps 1.50
 set style line  33 lc rgb '#A000A0' lt 1 lw 1 pt 7 ps 1.50
 set style line  34 lc rgb '#600060' lt 1 lw 1 pt 7 ps 1.50
+set style line  50 lc rgb '#FF0000' lt 1 lw 3 pt 7 ps 1.50 
 
 # arrow
 set style line  40 lc rgb '#30808080'
 
 # grid
-set grid xtics ls 21 lc rgb '#aaaaaa'
-set grid ytics ls 21 lc rgb '#aaaaaa'
+set grid xtics ls 21 lc rgb '#eeeeee'
+set grid ytics ls 21 lc rgb '#eeeeee'
 
 # misc
 set samples 30
@@ -71,7 +72,7 @@ ONE_DAY_IN_S = ONE_DAY_IN_MS / 1000
 set offsets 0.00, 0.00, graph 0.15, 0.00
 
 # key
-set key at graph 0.02, 0.98 left top invert spacing 1.5 box ls 3 opaque
+set key at graph 0.02, 0.98 left top invert spacing 1.5 box ls 3 opaque font ",14"
 
 # states
 NUM_STATES = 17

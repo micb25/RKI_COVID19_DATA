@@ -10,12 +10,14 @@ set xdata time
 set timefmt "%s"
 set format x "%d.%m.%y"
 
-set lmargin 12.60
+set lmargin 8.5
 
 PLOT_TITLE1 = "Erstimpfungen"
 PLOT_TITLE2 = "Zweitimpfungen"
+PLOT_TITLE3 = "14-Tage-Trend"
 PLOT_STYLE1 = 1
 PLOT_STYLE2 = 2
+PLOT_STYLE3 = 50
 
 do for [i=0:NUM_STATES-1] {
 	output_name = sprintf("plot_vac_rel_%i.png", i)
