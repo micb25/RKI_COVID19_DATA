@@ -10,6 +10,8 @@ set xdata time
 set timefmt "%s"
 set format x "%d.%m.%y"
 
+set bmargin 4.25
+
 PLOT_TITLE1 = "Erstimpfungen"
 PLOT_TITLE2 = "Zweitimpfungen"
 PLOT_STYLE1 = 1

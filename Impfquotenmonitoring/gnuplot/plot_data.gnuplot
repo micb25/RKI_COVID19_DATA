@@ -3,7 +3,7 @@
 unset xlabel
 set yrange [0: 1000 < * < 90000000]
 
-set label 1  at graph 0.99, 0.95 sprintf("{/Helvetica-Bold %s}", REGION) right textcolor ls 10
+set label 1  at graph 0.99, 0.95 sprintf("{/:Bold %s}", REGION) right textcolor ls 10
 set label 2  at graph 0.99, 0.89 update_str font ",12" right textcolor ls 10
 
 plot  \

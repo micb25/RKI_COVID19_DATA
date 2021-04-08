@@ -11,6 +11,7 @@ set timefmt "%s"
 set format x "%d.%m.%y"
 
 set lmargin 8.5
+set bmargin 4.25
 
 PLOT_TITLE1 = "Erstimpfungen"
 PLOT_TITLE2 = "Zweitimpfungen"

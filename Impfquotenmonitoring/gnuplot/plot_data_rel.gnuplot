@@ -4,7 +4,7 @@ set ylabel "Bevölkerungsanteil"
 set format y '%2.0f%%'
 set yrange [0: 0.1 < * < 100]
 
-set label 1  at graph 0.99, 0.95 sprintf("{/Helvetica-Bold %s}", REGION) right textcolor ls 10
+set label 1  at graph 0.99, 0.95 sprintf("{/:Bold %s}", REGION) right textcolor ls 10
 set label 2  at graph 0.99, 0.89 update_str font ",12" right textcolor ls 10
 
 # fit
@@ -21,7 +21,7 @@ set label 7 at graph 0.03, 0.75 " " left textcolor ls 0
 set label 8 at graph 0.03, 0.75 " " left textcolor ls 0
 
 if ( vac_per_day_rel > 0 ) {
-	set label 3 at graph 0.03, 0.71 "{/Helvetica-Bold 14-Tage-Trend (Erstimpfungen):}" left textcolor ls 10
+	set label 3 at graph 0.03, 0.71 "{/:Bold 14-Tage-Trend (Erstimpfungen):}" left textcolor ls 10
 	set label 4 at graph 0.06, 0.64 sprintf("%+.0f Impfungen pro Tag", vac_per_day) left textcolor ls 10
 	set label 5 at graph 0.06, 0.57 sprintf("%+.2f%% geimpfter Anteil pro Tag", vac_per_day_rel) left textcolor ls 10
 

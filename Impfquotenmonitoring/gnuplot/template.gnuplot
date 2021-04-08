@@ -1,4 +1,4 @@
-set terminal png enhanced truecolor font "Liberation Sans,16" size 800, 600 dl 2.0 
+set terminal png enhanced truecolor font "Linux Libertine O,16" size 800, 600 dl 2.0 
 set encoding utf8
 set minussign
 
@@ -50,7 +50,7 @@ set style fill transparent solid 0.20 border
 # set datafile separator ","
 
 # axes
-set xtics 7*86400 out nomirror rotate by 90 offset 0, -3.5 scale 1.2
+set xtics 7*86400 out nomirror rotate by 90 offset 0, -3.0 scale 1.2
 set mxtics 7
 
 # y-axis setup
@@ -72,7 +72,7 @@ ONE_DAY_IN_S = ONE_DAY_IN_MS / 1000
 set offsets 0.00, 0.00, graph 0.15, 0.00
 
 # key
-set key at graph 0.02, 0.98 left top invert spacing 1.5 box ls 3 opaque font ",14"
+set key at graph 0.02, 0.98 left top invert spacing 1.5 box ls 3 opaque font ",14" width 3
 
 # states
 NUM_STATES = 17
