@@ -61,9 +61,9 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     df = df.fillna(0)
                     df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.0f', index=False)
                     
-                else:
+                elif date < datetime(year=2021, month=4, day=8):
                     
-                    #2nd format
+                    # 2nd format
                     
                     # read first sheet
                     df_a = pd.read_excel(filename, header=[0, 1, 2], sheet_name=1, nrows=18, engine='openpyxl')
@@ -176,6 +176,154 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         }                        
                         df = df.append(data_row, ignore_index=True)
                         
+                        
+                    df = df.fillna(0)                    
+                    df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.3f', index=False)
+                    
+                else:
+                    
+                    # third format
+                    
+                    df_a = pd.read_excel(filename, header=[0, 1, 2, 3], sheet_name=2, nrows=18, engine='openpyxl')
+                    df_a = df_a.fillna(0)
+                    
+                    idx_id = -1
+                    idx_state = -1
+                    idx_vac_sum = []
+
+                    idx_vac_BT_1st = []
+                    idx_vac_MO_1st = []
+                    idx_vac_AZ_1st = []
+                    
+                    idx_vac_1st = []
+                    idx_vac_2nd = []
+                    idx_vac_inc_1st = []
+                    idx_vac_inc_2nd = []
+                    
+                    RKI_population = {
+                            8: 11100394, 
+                            9: 13124737, 
+                            11: 3669491, 
+                            12: 2521893, 
+                            4:   681202, 
+                            2:  1847253, 
+                            6:  6288080, 
+                            13: 1608138, 
+                            3:  7993608, 
+                            5: 17947221, 
+                            7:  4093903, 
+                            10:  986887, 
+                            14: 4071971, 
+                            15: 2194782, 
+                            1:  2903773, 
+                            16: 2133378,
+                            0: 83166711
+                    }
+                    
+                    locations = ['Impfzentren', 'niedergelassen' ]
+                    vacs = ['eine Impfung', 'vollständig geimpft']
+                    types = ['Gesamt', 'Differenz', 'BioNTech', 'Moderna', 'AstraZeneca']
+                    
+                    for i, column in enumerate(df_a.columns):
+                        column_str = ''
+                        for c in column:
+                            column_str += c + ' '
+                            
+                        if 'RS ' in column_str:
+                            idx_id = i
+                        if 'Bundesland' in column_str:
+                            idx_state = i
+                            
+                        for t in types:
+                            if t in column_str:
+                                if t == types[0]:
+                                    idx_vac_sum.append(i)
+                                    if vacs[0] in column_str:
+                                        idx_vac_1st.append(i)
+                                    elif vacs[1] in column_str:
+                                        idx_vac_2nd.append(i)
+                                elif t == types[1]:
+                                    if vacs[0] in column_str:
+                                        idx_vac_inc_1st.append(i)
+                                    elif vacs[1] in column_str:
+                                        idx_vac_inc_2nd.append(i)
+                                elif t == types[2]:
+                                    if vacs[0] in column_str:
+                                        idx_vac_BT_1st.append(i)
+                                elif t == types[3]:
+                                    if vacs[0] in column_str:
+                                        idx_vac_MO_1st.append(i)
+                                elif t == types[4]:
+                                    if vacs[0] in column_str:
+                                        idx_vac_AZ_1st.append(i)
+                    
+                                        # merge the sheets
+                    dtypes = np.dtype([
+                        ('RS', int),
+                        ('Bundesland', str),
+                        ('Impfungenkumulativ', int),
+                        ('DifferenzzumVortag', int),
+                        ('Impfungenpro1.000Einwohner', float),
+                        ('IndikationnachAlter', int),
+                        ('BeruflicheIndikation', int),
+                        ('MedizinischeIndikation', int),
+                        ('PflegeheimbewohnerIn', int),
+                        ('ImpfungenkumulativBiontec', int),
+                        ('ImpfungenkumulativModerna', int),
+                        ('ZweiteImpfungkumulativ', int),
+                        ('ZweiteImpfungDifferenzzumVortag', int)
+                    ])
+                    
+                    df = pd.DataFrame( np.empty(0, dtype=dtypes) )                    
+                    
+                    for i, row in df_a.iterrows():
+                        
+                        # skip empty lines
+                        if str(row[idx_state]) == '0':
+                            continue
+                        
+                        # skip other lines
+                        if 'Bund' in row[idx_state]:
+                            continue
+                        
+                        data_row = {
+                                'RS':                              int(row[idx_id])          if idx_id >= 0 else 0,
+                                'Bundesland':                      row[idx_state]            if idx_state >= 0 else 0,
+                        }
+                        
+                        data_row['Impfungenkumulativ'] = 0
+                        for c in idx_vac_1st:
+                            data_row['Impfungenkumulativ'] += int(row[c])
+                            
+                        data_row['Impfungenpro1.000Einwohner'] = data_row['Impfungenkumulativ'] / RKI_population[row[idx_id]] * 1000.0
+                        
+                        data_row['ZweiteImpfungkumulativ'] = 0
+                        for c in idx_vac_2nd:
+                            data_row['ZweiteImpfungkumulativ'] += int(row[c])
+                                                
+                        data_row['DifferenzzumVortag'] = 0
+                        for c in idx_vac_inc_1st:
+                            data_row['DifferenzzumVortag'] += int(row[c])
+                            
+                        data_row['ZweiteImpfungDifferenzzumVortag'] = 0
+                        for c in idx_vac_inc_2nd:
+                            data_row['ZweiteImpfungDifferenzzumVortag'] += int(row[c])
+                        
+                        data_row['ImpfungenkumulativBiontec'] = 0
+                        for c in idx_vac_BT_1st:
+                            data_row['ImpfungenkumulativBiontec'] += int(row[c])
+                            
+                        data_row['ImpfungenkumulativModerna'] = 0
+                        for c in idx_vac_MO_1st:
+                            data_row['ImpfungenkumulativModerna'] += int(row[c])
+                        
+                        # removed data types
+                        data_row['IndikationnachAlter'] = -1
+                        data_row['BeruflicheIndikation'] = -1
+                        data_row['MedizinischeIndikation'] = -1
+                        data_row['PflegeheimbewohnerIn'] = -1
+                        
+                        df = df.append(data_row, ignore_index=True)
                         
                     df = df.fillna(0)                    
                     df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.3f', index=False)
