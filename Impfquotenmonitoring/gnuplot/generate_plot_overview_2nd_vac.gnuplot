@@ -11,7 +11,7 @@ set rmargin 5.0
 set bmargin 5.0
 
 set xlabel "Bevölkerungsanteil mit zweiter Impfung (kumuliert)"
-set format x '%4.1f%%'
+set format x '%4.0f%%'
 set xrange [0: 1 < * < 100 ]
 set yrange [1:16]
 set style fill solid
