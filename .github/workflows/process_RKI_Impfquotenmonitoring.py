@@ -221,13 +221,15 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     }
                     
                     locations = ['Impfzentren', 'niedergelassen' ]
-                    vacs = ['eine Impfung', 'vollständig geimpft']
+                    vacs = ['eine Impfung', 'begonnene Impfserie', 'vollständig geimpft']
                     types = ['Gesamt', 'Differenz', 'BioNTech', 'Moderna', 'AstraZeneca']
                     
                     for i, column in enumerate(df_a.columns):
                         column_str = ''
                         for c in column:
                             column_str += c + ' '
+                            
+                        column_str = column_str.replace('*', '')
                             
                         if 'RS ' in column_str:
                             idx_id = i
@@ -238,23 +240,23 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             if t in column_str:
                                 if t == types[0]:
                                     idx_vac_sum.append(i)
-                                    if vacs[0] in column_str:
+                                    if (vacs[0] in column_str) or (vacs[1] in column_str):
                                         idx_vac_1st.append(i)
-                                    elif vacs[1] in column_str:
+                                    elif vacs[2] in column_str:
                                         idx_vac_2nd.append(i)
                                 elif t == types[1]:
-                                    if vacs[0] in column_str:
+                                    if (vacs[0] in column_str) or (vacs[1] in column_str):
                                         idx_vac_inc_1st.append(i)
-                                    elif vacs[1] in column_str:
+                                    elif vacs[2] in column_str:
                                         idx_vac_inc_2nd.append(i)
                                 elif t == types[2]:
-                                    if vacs[0] in column_str:
+                                    if (vacs[0] in column_str) or (vacs[1] in column_str):
                                         idx_vac_BT_1st.append(i)
                                 elif t == types[3]:
-                                    if vacs[0] in column_str:
+                                    if (vacs[0] in column_str) or (vacs[1] in column_str):
                                         idx_vac_MO_1st.append(i)
                                 elif t == types[4]:
-                                    if vacs[0] in column_str:
+                                    if (vacs[0] in column_str) or (vacs[1] in column_str):
                                         idx_vac_AZ_1st.append(i)
                     
                                         # merge the sheets
@@ -287,8 +289,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             continue
                         
                         data_row = {
-                                'RS':                              int(row[idx_id])          if idx_id >= 0 else 0,
-                                'Bundesland':                      row[idx_state]            if idx_state >= 0 else 0,
+                                'RS':                              int(row[idx_id])                if idx_id >= 0 else 0,
+                                'Bundesland':                      row[idx_state].replace('*', '') if idx_state >= 0 else 0,
                         }
                         
                         data_row['Impfungenkumulativ'] = 0
