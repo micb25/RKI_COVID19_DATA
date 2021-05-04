@@ -29,7 +29,7 @@ set ytics ( \
 
 population_cnt(x) = population[ x ]
 
-set xtics 0, 0.5, 20 out nomirror rotate by 0 offset 0, 0 scale 1.2
+set xtics 0, 2, 100 out nomirror rotate by 0 offset 0, 0 scale 1.2
 set mxtics 2
 
 # y-axis setup
@@ -42,4 +42,4 @@ set offsets graph 0.001, graph 0.20, graph 0.05, graph 0.05
 plot \
      1/0 notitle, \
 	"<awk -F, '{ if ((NR>1)&&($3>0)) print 17-$3, 100*$11 }' ../RKI_COVID19_Impfquotenmonitoring.csv | tail -n 16" using ($2/population_cnt(18-$1)):0:(0):($2/population_cnt(18-$1)):($1-bwidth/2.0):($1+bwidth/2.0):($1+1) with boxxyerror ls 2 notitle, \
-	"<awk -F, '{ if ((NR>1)&&($3>0)) print 17-$3, 100*$11 }' ../RKI_COVID19_Impfquotenmonitoring.csv | tail -n 16" using ($2/population_cnt(18-$1)):($1):(sprintf("%.0f (%.2f%%)", $2/100, $2/population_cnt(18-$1))) with labels left offset graph 0.01, 0.0
+	"<awk -F, '{ if ((NR>1)&&($3>0)) print 17-$3, 100*$11 }' ../RKI_COVID19_Impfquotenmonitoring.csv | tail -n 16" using ($2/population_cnt(18-$1)):($1):(sprintf("%.0f (%.1f%%)", $2/100, $2/population_cnt(18-$1))) with labels left offset graph 0.01, 0.0
