@@ -24,7 +24,7 @@ Bevölkerungsanteil mit Zweitimpfung nach Bundesland |
 :--------------------------------------------------:|
 ![](gnuplot/plot_vac_rel_overview_2nd_vac.png)      |
 
-## geimpfter Bevölkerungsanteil (kumuliert)
+## Trends Erstimpfungen: geimpfter Bevölkerungsanteil (kumuliert)
 
 Deutschland                                | Baden-Württemberg
 :-----------------------------------------:|:-----------------------------------------:
@@ -45,6 +45,28 @@ Deutschland                                | Baden-Württemberg
 ![](gnuplot/plot_vac_rel_15.png)           | ![](gnuplot/plot_vac_rel_1.png)
 **Thüringen**                              | ​
 ![](gnuplot/plot_vac_rel_16.png)           | ​
+
+## Trends Zweitimpfungen: geimpfter Bevölkerungsanteil (kumuliert)
+
+Deutschland                                | Baden-Württemberg
+:-----------------------------------------:|:-----------------------------------------:
+![](gnuplot/plot_vac_rel_2nd_0.png)        | ![](gnuplot/plot_vac_rel_2nd_8.png) 
+**Bayern**                                 | **Berlin**
+![](gnuplot/plot_vac_rel_2nd_9.png)        | ![](gnuplot/plot_vac_rel_2nd_11.png)
+**Brandenburg**                            | **Bremen**
+![](gnuplot/plot_vac_rel_2nd_12.png)       | ![](gnuplot/plot_vac_rel_2nd_4.png)
+**Hamburg**                                | **Hessen**
+![](gnuplot/plot_vac_rel_2nd_2.png)        | ![](gnuplot/plot_vac_rel_2nd_6.png)
+**Mecklenburg-Vorpommern**                 | **Niedersachsen**
+![](gnuplot/plot_vac_rel_2nd_13.png)       | ![](gnuplot/plot_vac_rel_2nd_3.png)
+**Nordrhein-Westfalen**                    | **Rheinland-Pfalz**
+![](gnuplot/plot_vac_rel_2nd_5.png)        | ![](gnuplot/plot_vac_rel_2nd_7.png)
+**Saarland**                               | **Sachsen**
+![](gnuplot/plot_vac_rel_2nd_10.png)       | ![](gnuplot/plot_vac_rel_2nd_14.png)
+**Sachsen-Anhalt**                         | **Schleswig-Holstein**
+![](gnuplot/plot_vac_rel_2nd_15.png)       | ![](gnuplot/plot_vac_rel_2nd_1.png)
+**Thüringen**                              | ​
+![](gnuplot/plot_vac_rel_2nd_16.png)       | ​
 
 ## Impfungen (kumuliert)
 
