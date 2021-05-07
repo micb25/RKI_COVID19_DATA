@@ -9,7 +9,7 @@ set xrange [xmin:xmax]
 set xdata time
 set timefmt "%s"
 set format x "%d.%m.%y"
-set format y '%4.0f Mio'
+set format y '%4.1f Mio'
 unset ylabel
 
 set bmargin 4.25
