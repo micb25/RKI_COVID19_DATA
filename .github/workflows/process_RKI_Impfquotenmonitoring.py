@@ -69,7 +69,7 @@ th_dtypes = np.dtype([
     ('abs_2nd_vac_A00-A17', int),
     ('abs_2nd_vac_A18-A59', int),
     ('abs_2nd_vac_A00-A59', int),
-    ('abs_2n_vac_A60+', int)
+    ('abs_2nd_vac_A60+', int)
 ])
 df_th = pd.DataFrame( np.empty(0, dtype=th_dtypes) )
 
