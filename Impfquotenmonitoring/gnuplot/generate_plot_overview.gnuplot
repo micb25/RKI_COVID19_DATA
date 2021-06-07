@@ -29,7 +29,7 @@ set ytics ( \
 
 population_cnt(x) = population[ x ]
 
-set xtics 0, 2, 100 out nomirror rotate by 0 offset 0, 0 scale 1.2
+set xtics 0, 10, 100 out nomirror rotate by 0 offset 0, 0 scale 1.2
 set mxtics 2
 
 # y-axis setup
