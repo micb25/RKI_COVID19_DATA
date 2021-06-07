@@ -322,7 +322,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'abs_2nd_vac_A00-A17': -1,
                             'abs_2nd_vac_A18-A59': -1,
                             'abs_2nd_vac_A00-A59': int(vac_second_below_60),
-                            'abs_2n_vac_A60+'    : int(vac_second_above_60)
+                            'abs_2nd_vac_A60+'    : int(vac_second_above_60)
                         }                        
                         df_th = df_th.append(data_row, ignore_index=True)
                                         
@@ -502,7 +502,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'abs_2nd_vac_A00-A17': num_2nd_vac_A00_A17,
                             'abs_2nd_vac_A18-A59': num_2nd_vac_A18_A59,
                             'abs_2nd_vac_A00-A59': num_2nd_vac_A00_A59,
-                            'abs_2n_vac_A60+'    : num_2nd_vac_A60p
+                            'abs_2nd_vac_A60+'    : num_2nd_vac_A60p
                     }
                         
                     df_th = df_th.append(data_row, ignore_index=True)
