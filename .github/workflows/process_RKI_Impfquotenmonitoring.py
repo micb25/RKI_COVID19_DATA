@@ -443,6 +443,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         if 'Bund' in row[idx_state]:
                             continue
                         
+                        data_row = {}
                         data_row['RS'] = int(row[idx_id])
                         data_row['Bundesland'] = row[idx_state].replace('*', '')
                         data_row['Impfungenkumulativ'] = int(row[idx_vac_1st_sum])
