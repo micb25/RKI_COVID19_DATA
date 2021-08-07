@@ -57,6 +57,7 @@ pop_TH_A00_A17 =  324465 / 100
 pop_TH_A60p    =  730456 / 100
 pop_TH_A18_A59 = pop_TH_all - pop_TH_A00_A17 - pop_TH_A60p
 pop_TH_A00_A59 = pop_TH_all - pop_TH_A60p
+pop_TH_A12_A17 =  104207 / 100
 
 th_dtypes = np.dtype([
     ('Timestamp', int),
@@ -482,12 +483,17 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_2nd_vac_below_60   = col[11]
                     idx_2nd_vac_above_60   = col[12]
                     
-                    num_1st_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
+                    if int(ts) < 1627200000:
+                        num_1st_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
+                        num_2nd_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_2nd_vac_below_18])
+                    else:
+                        num_1st_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
+                        num_2nd_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_2nd_vac_below_18])
+                    
                     num_1st_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_1st_vac_below_60])
                     num_1st_vac_A00_A59   = num_1st_vac_A00_A17 + num_1st_vac_A18_A59
-                    num_1st_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_1st_vac_above_60])
+                    num_1st_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_1st_vac_above_60])                    
                     
-                    num_2nd_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_2nd_vac_below_18])
                     num_2nd_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_2nd_vac_below_60])
                     num_2nd_vac_A00_A59   = num_2nd_vac_A00_A17 + num_2nd_vac_A18_A59
                     num_2nd_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_2nd_vac_above_60])
