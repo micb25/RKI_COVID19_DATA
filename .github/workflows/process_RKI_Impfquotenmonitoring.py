@@ -412,7 +412,10 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_vac_1st_diff = col[7]
                     
                     idx_vac_2nd_sum = col[8]
-                    idx_vac_2nd_diff = col[13]
+                    if date < datetime(year=2021, month=9, day=9):
+                        idx_vac_2nd_diff = col[13]
+                    else:
+                        idx_vac_2nd_diff = col[12]
 
                     idx_vac_BT_1st = col[3]
                     idx_vac_MO_1st = col[4]
@@ -475,13 +478,22 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     col = df_c.columns                
                     idx_bl = 15
                 
-                    idx_1st_vac_below_18   = col[6]
-                    idx_1st_vac_below_60   = col[7]
-                    idx_1st_vac_above_60   = col[8]
+                    if date < datetime(year=2021, month=9, day=9):
+                        idx_1st_vac_below_18   = col[6]
+                        idx_1st_vac_below_60   = col[7]
+                        idx_1st_vac_above_60   = col[8]
+                        
+                        idx_2nd_vac_below_18   = col[10]
+                        idx_2nd_vac_below_60   = col[11]
+                        idx_2nd_vac_above_60   = col[12]
+                    else:
+                        idx_1st_vac_below_18   = col[7]
+                        idx_1st_vac_below_60   = col[9]
+                        idx_1st_vac_above_60   = col[10]
                     
-                    idx_2nd_vac_below_18   = col[10]
-                    idx_2nd_vac_below_60   = col[11]
-                    idx_2nd_vac_above_60   = col[12]
+                        idx_2nd_vac_below_18   = col[12]
+                        idx_2nd_vac_below_60   = col[14]
+                        idx_2nd_vac_above_60   = col[15]
                     
                     if int(ts) < 1627200000:
                         num_1st_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
