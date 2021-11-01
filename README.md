@@ -2,13 +2,17 @@
 
 Zusammengesammeltes Archiv von RKI COVID19-Dashboard Datenbank Dumps ab `2020-03-21`.
 
+Vereinzelte Tagesdaten können aufgrund von Problemen mit dem RKI-Dashboard fehlen (`2021-10-26`, `2021-10-29`). An dieser Stelle wird auf das [offizielle Repository des RKI](https://github.com/robert-koch-institut/SARS-CoV-2_Infektionen_in_Deutschland) verwiesen.
+
 Quellenvermerk: 
 - Robert Koch-Institut (RKI), [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0)
 
-CSV-Quelle (aktueller Tag):
+CSV-Quellen (aktueller Tag):
 - [https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74](https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74)
+- [offizielles RKI Repository](https://github.com/robert-koch-institut/SARS-CoV-2_Infektionen_in_Deutschland) (seit April 2021)
 
 CSV-Quellen (archiviert):
+- [offizielles RKI Repository](https://github.com/robert-koch-institut/SARS-CoV-2_Infektionen_in_Deutschland) (seit April 2021)
 - [https://github.com/ard-data/2020-rki-archive/tree/master/data/0_archived](https://github.com/ard-data/2020-rki-archive/tree/master/data/0_archived)
 - [https://github.com/ihucos/rki-covid19-data](https://github.com/ihucos/rki-covid19-data)
 - [https://github.com/CharlesStr/CSV-Dateien-mit-Covid-19-Infektionen-](https://github.com/CharlesStr/CSV-Dateien-mit-Covid-19-Infektionen-)
