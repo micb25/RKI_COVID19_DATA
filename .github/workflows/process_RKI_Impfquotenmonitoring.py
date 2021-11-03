@@ -126,6 +126,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_vac_rate = -1
                     idx_vac_2nd_sum = -1
                     idx_vac_2nd_inc = -1
+                    idx_vac_booster = -1
                     
                     for i, column in enumerate(df_a.columns):
                         column_str = ''
@@ -188,7 +189,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         ('ImpfungenkumulativBiontec', int),
                         ('ImpfungenkumulativModerna', int),
                         ('ZweiteImpfungkumulativ', int),
-                        ('ZweiteImpfungDifferenzzumVortag', int)
+                        ('ZweiteImpfungDifferenzzumVortag', int),
+                        ('Auffrischimpfungen', int)
                     ])
                     
                     df = pd.DataFrame( np.empty(0, dtype=dtypes) )
@@ -217,7 +219,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                                 'ImpfungenkumulativBiontec':       int(row[idx_vac_biontec]) if idx_vac_biontec >= 0 else 0,
                                 'ImpfungenkumulativModerna':       int(row[idx_vac_moderna]) if idx_vac_moderna >= 0 else 0,
                                 'ZweiteImpfungkumulativ':          int(row[idx_vac_2nd_sum]) if idx_vac_2nd_sum >= 0 else 0,
-                                'ZweiteImpfungDifferenzzumVortag': int(row[idx_vac_2nd_inc]) if idx_vac_2nd_inc >= 0 else 0
+                                'ZweiteImpfungDifferenzzumVortag': int(row[idx_vac_2nd_inc]) if idx_vac_2nd_inc >= 0 else 0,
+                                'Auffrischimpfungen':              -1
                         }                        
                         df = df.append(data_row, ignore_index=True)
                         
@@ -228,7 +231,6 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                 elif date < datetime(year=2021, month=6, day=7):
                     
                     # third format
-                    
                     df_a = pd.read_excel(filename, header=[0, 1, 2, 3], sheet_name=2, nrows=18, engine='openpyxl')
                     df_a = df_a.fillna(0)
                     
@@ -248,6 +250,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_vac_inc_1st = []
                     idx_vac_inc_2nd = []
                     
+                    idx_booster = -1
+                    
                     locations = ['Impfzentren', 'niedergelassen' ]
                     vacs = ['eine Impfung', 'begonnene Impfserie', 'vollständig geimpft']
                     types = ['Gesamt', 'Differenz', 'BioNTech', 'Moderna', 'AstraZeneca', 'Janssen']
@@ -263,6 +267,9 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             idx_id = i
                         if 'Bundesland' in column_str:
                             idx_state = i
+                            
+                        if 'Auffrischimpfungen' in column_str:
+                            idx_booster = i
                             
                         for t in types:
                             if t in column_str:
@@ -341,7 +348,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         ('ImpfungenkumulativBiontec', int),
                         ('ImpfungenkumulativModerna', int),
                         ('ZweiteImpfungkumulativ', int),
-                        ('ZweiteImpfungDifferenzzumVortag', int)
+                        ('ZweiteImpfungDifferenzzumVortag', int),
+                        ('Auffrischimpfungen', int)
                     ])
                     
                     df = pd.DataFrame( np.empty(0, dtype=dtypes) )                    
@@ -393,6 +401,9 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         data_row['MedizinischeIndikation'] = -1
                         data_row['PflegeheimbewohnerIn'] = -1
                         
+                        # booster
+                        data_row['Auffrischimpfungen'] = row[idx_booster] if (idx_booster > -1) else -1
+                        
                         df = df.append(data_row, ignore_index=True)
                         
                     df = df.fillna(0)                    
@@ -421,6 +432,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_vac_MO_1st = col[4]
                     idx_vac_AZ_1st = col[5]
                     idx_vac_JJ_1st = col[6]
+                    
+                    idx_booster = 13 if (date >= datetime(year=2021, month=9, day=9)) else -1
                                      
                     # merge the sheets
                     dtypes = np.dtype([
@@ -436,13 +449,17 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         ('ImpfungenkumulativBiontec', int),
                         ('ImpfungenkumulativModerna', int),
                         ('ZweiteImpfungkumulativ', int),
-                        ('ZweiteImpfungDifferenzzumVortag', int)
+                        ('ZweiteImpfungDifferenzzumVortag', int),
+                        ('Auffrischimpfungen', int)
                     ])
                     
-                    df = pd.DataFrame( np.empty(0, dtype=dtypes) )                    
+                    df = pd.DataFrame( np.empty(0, dtype=dtypes) )   
+                    row_index = -1
                     
                     for i, row in df_a.iterrows():
-                                                
+                                  
+                        row_index += 1
+                        
                         # skip other lines
                         if 'Bund' in row[idx_state]:
                             continue
@@ -464,6 +481,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         data_row['BeruflicheIndikation'] = -1
                         data_row['MedizinischeIndikation'] = -1
                         data_row['PflegeheimbewohnerIn'] = -1
+                        data_row['Auffrischimpfungen'] = -1 if idx_booster < 0 else row[idx_booster]
                         
                         df = df.append(data_row, ignore_index=True)
                         
@@ -534,7 +552,7 @@ df_th.to_csv(DATAPATH + THURINGIA_CSV, sep=',', decimal=".", encoding='utf-8', f
 columns = [ 
         'timestamp', 'ISODate', 'IdBundesland', 'Bundesland', 
         'Impfungenkumulativ', 'DifferenzzumVortag', 'IndikationnachAlter', 'BeruflicheIndikation', 'MedizinischeIndikation', 'PflegeheimbewohnerIn',
-        'ZweiteImpfungkumulativ', 'ZweiteImpfungDifferenzzumVortag'
+        'ZweiteImpfungkumulativ', 'ZweiteImpfungDifferenzzumVortag', 'Auffrischimpfungen'
 ]
 
 df_export = pd.DataFrame(columns=columns)
@@ -569,7 +587,8 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'MedizinischeIndikation': row['MedizinischeIndikation'] if 'MedizinischeIndikation' in row else 0,
                             'PflegeheimbewohnerIn': row['PflegeheimbewohnerIn'] if 'PflegeheimbewohnerIn' in row else 0,
                             'ZweiteImpfungkumulativ': row['ZweiteImpfungkumulativ'] if 'ZweiteImpfungkumulativ' in row else 0,
-                            'ZweiteImpfungDifferenzzumVortag': row['ZweiteImpfungDifferenzzumVortag'] if 'ZweiteImpfungDifferenzzumVortag' in row else 0
+                            'ZweiteImpfungDifferenzzumVortag': row['ZweiteImpfungDifferenzzumVortag'] if 'ZweiteImpfungDifferenzzumVortag' in row else 0,
+                            'Auffrischimpfungen': row['Auffrischimpfungen'] if 'Auffrischimpfungen' in row else 0
                     }
                                         
                     df_export = df_export.append(row_data, ignore_index=True)
