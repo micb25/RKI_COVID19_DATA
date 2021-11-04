@@ -555,7 +555,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     
                     if date >= datetime(year=2021, month=9, day=9):
                         num_3rd_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_3rd_vac_below_60])
-                        num_3rd_vac_A00_A59   = num_2nd_vac_A00_A17 + num_3rd_vac_A18_A59
+                        num_3rd_vac_A00_A59   = num_3rd_vac_A00_A17 + num_3rd_vac_A18_A59
                         num_3rd_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_3rd_vac_above_60])
                     else:
                         num_3rd_vac_A00_A17    = -1
