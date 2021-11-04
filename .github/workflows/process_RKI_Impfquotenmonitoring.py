@@ -47,17 +47,18 @@ RKI_population = {
         14: 4071971, 
         15: 2194782, 
         1:  2903773, 
-        16: 2133378,
+        16: 2120237,
         0: 83166711
 }
 
-# Thuringia
-pop_TH_all     = 2133378 / 100
-pop_TH_A00_A17 =  324465 / 100
-pop_TH_A60p    =  730456 / 100
+# Thuringia (https://statistikportal.thueringen.de/thonsa/tabanzeige.php?auswahl=tbl&thema=1&tabid=112&bevauswahl=x)
+# population data of 2020-12-31
+pop_TH_all     = 2120237 / 100
+pop_TH_A00_A17 =  323874 / 100
+pop_TH_A60p    =  738544 / 100
 pop_TH_A18_A59 = pop_TH_all - pop_TH_A00_A17 - pop_TH_A60p
 pop_TH_A00_A59 = pop_TH_all - pop_TH_A60p
-pop_TH_A12_A17 =  104207 / 100
+pop_TH_A12_A17 =  105509 / 100
 
 th_dtypes = np.dtype([
     ('Timestamp', int),
@@ -70,7 +71,11 @@ th_dtypes = np.dtype([
     ('abs_2nd_vac_A00-A17', int),
     ('abs_2nd_vac_A18-A59', int),
     ('abs_2nd_vac_A00-A59', int),
-    ('abs_2nd_vac_A60+', int)
+    ('abs_2nd_vac_A60+', int),
+    ('abs_3rd_vac_A00-A17', int),
+    ('abs_3rd_vac_A18-A59', int),
+    ('abs_3rd_vac_A00-A59', int),
+    ('abs_3rd_vac_A60+', int)
 ])
 df_th = pd.DataFrame( np.empty(0, dtype=th_dtypes) )
 
@@ -504,6 +509,11 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         idx_2nd_vac_below_18   = col[10]
                         idx_2nd_vac_below_60   = col[11]
                         idx_2nd_vac_above_60   = col[12]
+                        
+                        idx_3rd_vac_below_18   = -1
+                        idx_3rd_vac_below_60   = -1
+                        idx_3rd_vac_above_60   = -1
+                        
                     else:
                         idx_1st_vac_below_18   = col[7]
                         idx_1st_vac_below_60   = col[9]
@@ -512,13 +522,28 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         idx_2nd_vac_below_18   = col[12]
                         idx_2nd_vac_below_60   = col[14]
                         idx_2nd_vac_above_60   = col[15]
+                        
+                        idx_3rd_vac_below_18   = col[17]
+                        idx_3rd_vac_below_60   = col[19]
+                        idx_3rd_vac_above_60   = col[20]
                     
                     if int(ts) < 1627200000:
                         num_1st_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
                         num_2nd_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_2nd_vac_below_18])
+                        
+                        if date >= datetime(year=2021, month=9, day=9):
+                            num_3rd_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_3rd_vac_below_18])
+                        else:
+                            num_3rd_vac_A00_A17 -1
+                        
                     else:
                         num_1st_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
                         num_2nd_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_2nd_vac_below_18])
+                        
+                        if date >= datetime(year=2021, month=9, day=9):
+                            num_3rd_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_3rd_vac_below_18])
+                        else:
+                            num_3rd_vac_A00_A17 -1
                     
                     num_1st_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_1st_vac_below_60])
                     num_1st_vac_A00_A59   = num_1st_vac_A00_A17 + num_1st_vac_A18_A59
@@ -527,6 +552,16 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     num_2nd_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_2nd_vac_below_60])
                     num_2nd_vac_A00_A59   = num_2nd_vac_A00_A17 + num_2nd_vac_A18_A59
                     num_2nd_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_2nd_vac_above_60])
+                    
+                    if date >= datetime(year=2021, month=9, day=9):
+                        num_3rd_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_3rd_vac_below_60])
+                        num_3rd_vac_A00_A59   = num_2nd_vac_A00_A17 + num_3rd_vac_A18_A59
+                        num_3rd_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_3rd_vac_above_60])
+                    else:
+                        num_3rd_vac_A00_A17    = -1
+                        num_3rd_vac_A18_A59    = -1
+                        num_3rd_vac_A00_A59    = -1
+                        num_3rd_vac_A60p       = -1
                     
                     data_row = {
                             'Timestamp'          : int(ts),
@@ -539,7 +574,11 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'abs_2nd_vac_A00-A17': num_2nd_vac_A00_A17,
                             'abs_2nd_vac_A18-A59': num_2nd_vac_A18_A59,
                             'abs_2nd_vac_A00-A59': num_2nd_vac_A00_A59,
-                            'abs_2nd_vac_A60+'    : num_2nd_vac_A60p
+                            'abs_2nd_vac_A60+'   : num_2nd_vac_A60p,
+                            'abs_3rd_vac_A00-A17': num_3rd_vac_A00_A17,
+                            'abs_3rd_vac_A18-A59': num_3rd_vac_A18_A59,
+                            'abs_3rd_vac_A00-A59': num_3rd_vac_A00_A59,
+                            'abs_3rd_vac_A60+'   : num_3rd_vac_A60p,
                     }
                         
                     df_th = df_th.append(data_row, ignore_index=True)
