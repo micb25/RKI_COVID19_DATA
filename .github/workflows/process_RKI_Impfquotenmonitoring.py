@@ -430,8 +430,10 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     idx_vac_2nd_sum = col[8]
                     if date < datetime(year=2021, month=9, day=9):
                         idx_vac_2nd_diff = col[13]
+                        add_JJ = False
                     else:
                         idx_vac_2nd_diff = col[12]
+                        add_JJ = True
 
                     idx_vac_BT_1st = col[3]
                     idx_vac_MO_1st = col[4]
@@ -474,7 +476,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         data_row['Bundesland'] = row[idx_state].replace('*', '')
                         data_row['Impfungenkumulativ'] = int(row[idx_vac_1st_sum])
                         data_row['Impfungenpro1.000Einwohner'] = data_row['Impfungenkumulativ'] / RKI_population[row[idx_id]] * 1000.0
-                        data_row['ZweiteImpfungkumulativ'] = int(row[idx_vac_2nd_sum])
+                        data_row['ZweiteImpfungkumulativ'] = int(row[idx_vac_2nd_sum]) + int(row[idx_vac_JJ_1st]) if add_JJ else int(row[idx_vac_2nd_sum])
                         data_row['DifferenzzumVortag'] = int(row[idx_vac_1st_diff])
                         data_row['ZweiteImpfungDifferenzzumVortag'] = int(row[idx_vac_2nd_diff])
                         
