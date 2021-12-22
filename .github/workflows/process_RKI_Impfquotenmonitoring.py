@@ -516,7 +516,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         idx_3rd_vac_below_60   = -1
                         idx_3rd_vac_above_60   = -1
                         
-                    else:
+                    elif date < datetime(year=2021, month=12, day=21):
                         idx_1st_vac_below_18   = col[7]
                         idx_1st_vac_below_60   = col[9]
                         idx_1st_vac_above_60   = col[10]
@@ -528,6 +528,19 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                         idx_3rd_vac_below_18   = col[17]
                         idx_3rd_vac_below_60   = col[19]
                         idx_3rd_vac_above_60   = col[20]
+                        
+                    else:
+                        idx_1st_vac_below_18   = col[8]
+                        idx_1st_vac_below_60   = col[10]
+                        idx_1st_vac_above_60   = col[11]
+                    
+                        idx_2nd_vac_below_18   = col[13]
+                        idx_2nd_vac_below_60   = col[15]
+                        idx_2nd_vac_above_60   = col[16]
+                        
+                        idx_3rd_vac_below_18   = col[18]
+                        idx_3rd_vac_below_60   = col[20]
+                        idx_3rd_vac_above_60   = col[21]                        
                     
                     if int(ts) < 1627200000:
                         num_1st_vac_A00_A17   = int(pop_TH_A00_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
