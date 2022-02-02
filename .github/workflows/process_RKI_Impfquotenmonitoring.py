@@ -64,15 +64,15 @@ th_dtypes = np.dtype([
     ('Timestamp', int),
     ('RS', int),
     ('State', str),
-    ('abs_1st_vac_A00-A17', int),
+    ('abs_1st_vac_A12-A17', int),
     ('abs_1st_vac_A18-A59', int),
     ('abs_1st_vac_A00-A59', int),
     ('abs_1st_vac_A60+', int),
-    ('abs_2nd_vac_A00-A17', int),
+    ('abs_2nd_vac_A12-A17', int),
     ('abs_2nd_vac_A18-A59', int),
     ('abs_2nd_vac_A00-A59', int),
     ('abs_2nd_vac_A60+', int),
-    ('abs_3rd_vac_A00-A17', int),
+    ('abs_3rd_vac_A12-A17', int),
     ('abs_3rd_vac_A18-A59', int),
     ('abs_3rd_vac_A00-A59', int),
     ('abs_3rd_vac_A60+', int)
@@ -328,11 +328,11 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'Timestamp'          : int(ts),
                             'RS'                 : df_c.iloc[idx_bl][col[0]],
                             'State'              : df_c.iloc[idx_bl][col[1]].replace("*", ""),
-                            'abs_1st_vac_A00-A17': -1,
+                            'abs_1st_vac_A12-A17': -1,
                             'abs_1st_vac_A18-A59': -1,
                             'abs_1st_vac_A00-A59': int(vac_first_below_60),
                             'abs_1st_vac_A60+'   : int(vac_first_above_60),
-                            'abs_2nd_vac_A00-A17': -1,
+                            'abs_2nd_vac_A12-A17': -1,
                             'abs_2nd_vac_A18-A59': -1,
                             'abs_2nd_vac_A00-A59': int(vac_second_below_60),
                             'abs_2nd_vac_A60+'    : int(vac_second_above_60)
@@ -414,7 +414,7 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                     df = df.fillna(0)                    
                     df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.3f', index=False)
                     
-                else:
+                elif date < datetime(year=2022, month=1, day=18):
                     
                     # fourth format                    
                     df_a = pd.read_excel(filename, header=[0, 1, 2], sheet_name=2, nrows=18, engine='openpyxl')
@@ -582,15 +582,149 @@ for r, d, f in os.walk(DATAPATH, topdown=True):
                             'Timestamp'          : int(ts),
                             'RS'                 : df_c.iloc[idx_bl][col[0]],
                             'State'              : df_c.iloc[idx_bl][col[1]].replace("*", ""),
-                            'abs_1st_vac_A00-A17': num_1st_vac_A00_A17,
+                            'abs_1st_vac_A12-A17': num_1st_vac_A00_A17,
                             'abs_1st_vac_A18-A59': num_1st_vac_A18_A59,
                             'abs_1st_vac_A00-A59': num_1st_vac_A00_A59,
                             'abs_1st_vac_A60+'   : num_1st_vac_A60p,
-                            'abs_2nd_vac_A00-A17': num_2nd_vac_A00_A17,
+                            'abs_2nd_vac_A12-A17': num_2nd_vac_A00_A17,
                             'abs_2nd_vac_A18-A59': num_2nd_vac_A18_A59,
                             'abs_2nd_vac_A00-A59': num_2nd_vac_A00_A59,
                             'abs_2nd_vac_A60+'   : num_2nd_vac_A60p,
-                            'abs_3rd_vac_A00-A17': num_3rd_vac_A00_A17,
+                            'abs_3rd_vac_A12-A17': num_3rd_vac_A00_A17,
+                            'abs_3rd_vac_A18-A59': num_3rd_vac_A18_A59,
+                            'abs_3rd_vac_A00-A59': num_3rd_vac_A00_A59,
+                            'abs_3rd_vac_A60+'   : num_3rd_vac_A60p,
+                    }
+                        
+                    df_th = df_th.append(data_row, ignore_index=True)
+                    
+                else:
+                    
+                    # fifth format                    
+                    df_a = pd.read_excel(filename, header=[0, 1, 2], sheet_name=2, nrows=18, engine='openpyxl')
+                    df_a = df_a.fillna(0)
+                    
+                    col = df_a.columns
+                    
+                    idx_id = col[0]
+                    idx_state = col[1]
+                    idx_vac_1st_sum = col[2]
+                    idx_vac_1st_diff = col[8]
+                    
+                    idx_vac_2nd_sum = col[9]
+                    idx_vac_2nd_diff = col[14]
+                    add_JJ = True
+
+                    idx_vac_BT_1st = col[3]
+                    idx_vac_MO_1st = col[4]
+                    idx_vac_AZ_1st = col[5]
+                    idx_vac_JJ_1st = col[6]
+                    
+                    idx_booster = 15
+                                     
+                    # merge the sheets
+                    dtypes = np.dtype([
+                        ('RS', int),
+                        ('Bundesland', str),
+                        ('Impfungenkumulativ', int),
+                        ('DifferenzzumVortag', int),
+                        ('Impfungenpro1.000Einwohner', float),
+                        ('IndikationnachAlter', int),
+                        ('BeruflicheIndikation', int),
+                        ('MedizinischeIndikation', int),
+                        ('PflegeheimbewohnerIn', int),
+                        ('ImpfungenkumulativBiontec', int),
+                        ('ImpfungenkumulativModerna', int),
+                        ('ZweiteImpfungkumulativ', int),
+                        ('ZweiteImpfungDifferenzzumVortag', int),
+                        ('Auffrischimpfungen', int)
+                    ])
+                    
+                    df = pd.DataFrame( np.empty(0, dtype=dtypes) )   
+                    row_index = -1
+                    
+                    for i, row in df_a.iterrows():
+                                  
+                        row_index += 1
+                        
+                        # skip other lines
+                        if 'Bund' in row[idx_state]:
+                            continue
+                        
+                        data_row = {}
+                        data_row['RS'] = int(row[idx_id])
+                        data_row['Bundesland'] = row[idx_state].replace('*', '')
+                        data_row['Impfungenkumulativ'] = int(row[idx_vac_1st_sum])
+                        data_row['Impfungenpro1.000Einwohner'] = data_row['Impfungenkumulativ'] / RKI_population[row[idx_id]] * 1000.0
+                        data_row['ZweiteImpfungkumulativ'] = int(row[idx_vac_2nd_sum]) + int(row[idx_vac_JJ_1st]) if add_JJ else int(row[idx_vac_2nd_sum])
+                        data_row['DifferenzzumVortag'] = int(row[idx_vac_1st_diff])
+                        data_row['ZweiteImpfungDifferenzzumVortag'] = int(row[idx_vac_2nd_diff])
+                        
+                        data_row['ImpfungenkumulativBiontec'] = int(row[idx_vac_BT_1st])
+                        data_row['ImpfungenkumulativModerna'] = int(row[idx_vac_MO_1st])
+                        
+                        # removed data types
+                        data_row['IndikationnachAlter'] = -1
+                        data_row['BeruflicheIndikation'] = -1
+                        data_row['MedizinischeIndikation'] = -1
+                        data_row['PflegeheimbewohnerIn'] = -1
+                        data_row['Auffrischimpfungen'] = -1 if idx_booster < 0 else row[idx_booster]
+                        
+                        df = df.append(data_row, ignore_index=True)
+                        
+                    df = df.fillna(0)                    
+                    df.to_csv(csv_file, sep=',', decimal='.', encoding='utf-8', float_format='%.3f', index=False)
+                    
+                    ##############
+                    # Thuringia
+                    ##############
+                    df_c = pd.read_excel(filename, header=[0,1,2], sheet_name=1, nrows=18, engine='openpyxl')
+                    df_c = df_c.fillna(0)                    
+                    col = df_c.columns                
+                    idx_bl = 15
+                
+                    idx_1st_vac_below_18   = col[9]
+                    idx_1st_vac_below_60   = col[11]
+                    idx_1st_vac_above_60   = col[12]
+                
+                    idx_2nd_vac_below_18   = col[16]
+                    idx_2nd_vac_below_60   = col[18]
+                    idx_2nd_vac_above_60   = col[19]
+                    
+                    idx_3rd_vac_below_18   = col[21]
+                    idx_3rd_vac_below_60   = col[23]
+                    idx_3rd_vac_above_60   = col[24]                        
+   
+                    num_1st_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_1st_vac_below_18])
+                    num_2nd_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_2nd_vac_below_18])
+                    num_3rd_vac_A00_A17   = int(pop_TH_A12_A17 * df_c.iloc[idx_bl][idx_3rd_vac_below_18])
+                        
+                    
+                    num_1st_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_1st_vac_below_60])
+                    num_1st_vac_A00_A59   = num_1st_vac_A00_A17 + num_1st_vac_A18_A59
+                    num_1st_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_1st_vac_above_60])                    
+                    
+                    num_2nd_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_2nd_vac_below_60])
+                    num_2nd_vac_A00_A59   = num_2nd_vac_A00_A17 + num_2nd_vac_A18_A59
+                    num_2nd_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_2nd_vac_above_60])
+                    
+                    num_3rd_vac_A18_A59   = int(pop_TH_A18_A59 * df_c.iloc[idx_bl][idx_3rd_vac_below_60])
+                    num_3rd_vac_A00_A59   = num_3rd_vac_A00_A17 + num_3rd_vac_A18_A59
+                    num_3rd_vac_A60p      = int(pop_TH_A60p * df_c.iloc[idx_bl][idx_3rd_vac_above_60])
+                    
+                    data_row = {
+                            'Timestamp'          : int(ts),
+                            'RS'                 : df_c.iloc[idx_bl][col[0]],
+                            'State'              : df_c.iloc[idx_bl][col[1]].replace("*", ""),
+                            'abs_1st_vac_A12-A17': num_1st_vac_A00_A17,
+                            'abs_1st_vac_A18-A59': num_1st_vac_A18_A59,
+                            'abs_1st_vac_A00-A59': num_1st_vac_A00_A59,
+                            'abs_1st_vac_A60+'   : num_1st_vac_A60p,
+                            'abs_2nd_vac_A12-A17': num_2nd_vac_A00_A17,
+                            'abs_2nd_vac_A18-A59': num_2nd_vac_A18_A59,
+                            'abs_2nd_vac_A00-A59': num_2nd_vac_A00_A59,
+                            'abs_2nd_vac_A60+'   : num_2nd_vac_A60p,
+                            'abs_3rd_vac_A12-A17': num_3rd_vac_A00_A17,
                             'abs_3rd_vac_A18-A59': num_3rd_vac_A18_A59,
                             'abs_3rd_vac_A00-A59': num_3rd_vac_A00_A59,
                             'abs_3rd_vac_A60+'   : num_3rd_vac_A60p,
